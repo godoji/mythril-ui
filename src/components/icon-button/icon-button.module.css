@@ -1,0 +1,8 @@
+.iconButton {
+  width: var(--mythril-control-height, 2rem);
+  padding: 0;
+  flex: 0 0 auto;
+}
+.iconButton[data-size="small"] {
+  width: var(--mythril-control-height-small, 1.75rem);
+}

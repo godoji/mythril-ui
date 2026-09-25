@@ -1,0 +1,50 @@
+.viewport {
+  position: fixed;
+  z-index: 1300;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  width: min(22rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.625rem;
+  border: 1px solid var(--mythril-border, #767676);
+  border-radius: var(--mythril-radius, 0.625rem);
+  background: var(--mythril-surface, #fff);
+  color: var(--mythril-text, #202020);
+  box-shadow: var(--mythril-panel-shadow, 0 12px 40px #0004);
+  pointer-events: auto;
+}
+.icon {
+  flex: 0 0 auto;
+  margin-top: 0.375rem;
+  color: var(--mythril-info, #1d4ed8);
+}
+.toast[data-tone="success"] .icon {
+  color: var(--mythril-success, #166534);
+}
+.toast[data-tone="warning"] .icon {
+  color: var(--mythril-warning, #854d0e);
+}
+.toast[data-tone="danger"] .icon {
+  color: var(--mythril-danger, #b91c1c);
+}
+.body {
+  display: grid;
+  flex: 1;
+  gap: 0.125rem;
+  min-width: 0;
+  padding-top: 0.25rem;
+  overflow-wrap: anywhere;
+}
+.body strong {
+  font-size: 0.8125rem;
+}
+.action {
+  margin-top: 0.375rem;
+}

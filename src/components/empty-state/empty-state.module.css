@@ -1,0 +1,22 @@
+.root {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  padding: 1.25rem;
+  color: var(--mythril-muted, #606060);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+.root strong {
+  color: var(--mythril-text, #202020);
+  font-weight: 600;
+}
+.root p {
+  margin: 0;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

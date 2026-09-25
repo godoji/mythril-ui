@@ -1,0 +1,102 @@
+.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  height: var(--mythril-control-height, 2rem);
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--mythril-border, #737373);
+  border-radius: var(--mythril-radius, 0.625rem);
+  background: var(--mythril-surface, #fff);
+  color: var(--mythril-text, #171717);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    opacity 150ms ease;
+}
+
+.button[data-variant="primary"] {
+  border-color: var(--mythril-accent, #262626);
+  background: var(--mythril-accent, #262626);
+  color: var(--mythril-on-accent, #fff);
+}
+
+.button[data-size="small"] {
+  height: var(--mythril-control-height-small, 1.75rem);
+  padding: 0.125rem 0.6875rem;
+}
+
+.icon {
+  flex: 0 0 auto;
+}
+
+.button:hover:not(:disabled) {
+  border-color: var(--mythril-muted, #606060);
+  background: var(--mythril-subtle, #f5f5f5);
+}
+.button[data-variant="primary"]:hover:not(:disabled) {
+  border-color: var(--mythril-accent, #262626);
+  background: color-mix(
+    in srgb,
+    var(--mythril-accent, #262626) 88%,
+    var(--mythril-surface, #fff)
+  );
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--mythril-focus, #2563eb);
+  outline-offset: 2px;
+}
+
+.button[data-variant="ghost"] {
+  border-color: transparent;
+  background: transparent;
+}
+.button[data-variant="ghost"]:hover:not(:disabled) {
+  border-color: transparent;
+  background: var(--mythril-hover, #ebebeb);
+}
+.button[data-variant="success"] {
+  --button-tone: var(--mythril-success, #166534);
+}
+.button[data-variant="warning"] {
+  --button-tone: var(--mythril-warning, #854d0e);
+}
+.button[data-variant="danger"] {
+  --button-tone: var(--mythril-danger, #b91c1c);
+}
+.button[data-variant="success"],
+.button[data-variant="warning"],
+.button[data-variant="danger"] {
+  border-color: color-mix(in srgb, var(--button-tone) 24%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--button-tone) 9%,
+    var(--mythril-surface, #fff)
+  );
+  color: var(--button-tone);
+}
+.button[data-variant="success"]:hover:not(:disabled),
+.button[data-variant="warning"]:hover:not(:disabled),
+.button[data-variant="danger"]:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--button-tone) 38%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--button-tone) 15%,
+    var(--mythril-surface, #fff)
+  );
+}
+
+.button:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}

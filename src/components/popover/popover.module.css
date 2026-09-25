@@ -1,0 +1,14 @@
+.popover {
+  z-index: 1100;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(24rem, var(--mythril-available-width, calc(100vw - 1rem)));
+  max-height: min(32rem, var(--mythril-available-height, calc(100dvh - 2rem)));
+  overflow: auto;
+  padding: 0.875rem;
+  border: 1px solid var(--mythril-divider, #d9d9d9);
+  border-radius: var(--mythril-radius, 0.625rem);
+  background: var(--mythril-surface, #fff);
+  color: var(--mythril-text, #202020);
+  box-shadow: var(--mythril-panel-shadow, 0 12px 40px #0004);
+}

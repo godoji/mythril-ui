@@ -1,0 +1,106 @@
+.pageHeader,
+.cardHeader,
+.filterBar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.pageHeader {
+  margin-bottom: 1rem;
+}
+.pageHeader h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 600;
+}
+.pageHeader p,
+.cardHeader p {
+  margin: 0.25rem 0 0;
+  color: var(--mythril-muted, #606060);
+  font-size: 0.8125rem;
+}
+.actions,
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--mythril-divider, #d9d9d9);
+  border-radius: var(--mythril-radius-panel, 0.75rem);
+  background: var(--mythril-surface, #fff);
+  color: var(--mythril-text, #202020);
+}
+.cardHeader {
+  align-items: center;
+  margin-bottom: 0.875rem;
+}
+.cardHeader h2 {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.formRow {
+  display: grid;
+  grid-template-columns: minmax(8rem, 25%) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--mythril-divider, #d9d9d9);
+}
+.formRow:last-child {
+  border-bottom: 0;
+}
+.formLabel {
+  display: grid;
+  gap: 0.125rem;
+  padding-top: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--mythril-muted, #606060);
+}
+.formLabel label {
+  cursor: pointer;
+}
+.formLabel small {
+  font-size: 0.75rem;
+}
+.formContent {
+  min-width: 0;
+}
+.formActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.formActions[data-align="end"] {
+  justify-content: flex-end;
+}
+.formActions[data-align="between"] {
+  justify-content: space-between;
+}
+.filterBar {
+  align-items: end;
+  margin-bottom: 0.75rem;
+}
+.filters {
+  align-items: end;
+  gap: 0.75rem;
+}
+@media (max-width: 40rem) {
+  .formRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.375rem;
+  }
+  .formLabel {
+    padding-top: 0;
+  }
+}

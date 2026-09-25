@@ -1,0 +1,31 @@
+.composer {
+  min-width: 0;
+  padding: 0.625rem;
+  border: 1px solid transparent;
+  border-radius: var(--mythril-radius, 0.625rem);
+  background: var(--mythril-input-filled, #f3f3f3);
+}
+.composer:focus-within {
+  outline: 2px solid var(--mythril-focus, #2563eb);
+  outline-offset: 2px;
+}
+.composer[data-invalid="true"] {
+  border-color: var(--mythril-danger, #b91c1c);
+}
+.composer .textarea[data-variant="filled"],
+.composer .textarea[data-variant="filled"]:hover:not(:disabled),
+.composer .textarea[data-variant="filled"]:focus-visible {
+  min-height: 3rem;
+  padding: 0.25rem 0;
+  border-color: transparent;
+  outline: 0;
+  background: transparent;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+}
