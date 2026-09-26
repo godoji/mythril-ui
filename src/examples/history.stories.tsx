@@ -185,6 +185,7 @@ const HistoryExample = (): ReactElement => {
                           <>
                             <Button
                               size="small"
+                              variant="ghost"
                               icon={Plus}
                               onClick={() => {
                                 setEntries([
