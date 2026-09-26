@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Notice } from "./notice.js";
+import { Alert, Notice } from "./notice.js";
 
 const meta = {
   title: "Components/Notice",
@@ -30,3 +30,11 @@ export const Error: Story = {
   },
 };
 export const Success: Story = { args: { title: "Saved", tone: "success" } };
+
+export const AlertMessage: Story = {
+  render: () => (
+    <Alert title="Unable to save" tone="danger">
+      Check the connection and try again.
+    </Alert>
+  ),
+};

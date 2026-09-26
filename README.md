@@ -117,6 +117,7 @@ fonts; no font is fetched by the package. Use typed `tokens` to customize `--myt
 variables; token overrides also follow tooltips and other portaled overlays.
 `className`/`style` can customize components that expose native element props.
 Theme defaults live in [theme.module.css](src/components/theme/theme.module.css).
+Spacing uses `--mythril-space-1/2/3/4/6/8` (4/8/12/16/24/32 px at the default root size). Compact selections use `--mythril-radius-sm`; controls and panels retain their separate radius tokens.
 Consumers own contrast when overriding colors.
 
 ## Adding components

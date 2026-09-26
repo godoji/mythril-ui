@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import type { Placement } from "@floating-ui/react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "../button/button.js";
 import type { ButtonProps } from "../button/button.js";
@@ -13,6 +14,8 @@ export interface IconButtonProps extends Omit<
 > {
   icon: LucideIcon;
   label: string;
+  /** Where the icon-only tooltip should appear. */
+  tooltipPlacement?: Placement;
   /** Optional boundary for the icon-only tooltip. */
   boundary?: FloatingBoundary | null;
 }
@@ -22,10 +25,16 @@ export const IconButton = ({
   className,
   variant = "ghost",
   disabled = false,
+  tooltipPlacement = "top",
   boundary,
   ...props
 }: IconButtonProps): ReactElement => (
-  <Tooltip label={label} disabled={disabled} boundary={boundary ?? null}>
+  <Tooltip
+    label={label}
+    disabled={disabled}
+    placement={tooltipPlacement}
+    boundary={boundary ?? null}
+  >
     <Button
       {...props}
       variant={variant}

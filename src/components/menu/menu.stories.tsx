@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import type { ReactElement } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { fn } from "storybook/test";
+import { fn, userEvent, within } from "storybook/test";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "../button/button.js";
 import { IconButton } from "../icon-button/icon-button.js";
@@ -52,4 +52,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const ConstrainedContainer: Story = {
   render: (args) => <ConstrainedExample {...args} />,
+};
+
+export const Open: Story = {
+  play: async ({ canvasElement }) => {
+    await userEvent.click(
+      within(canvasElement).getByRole("button", { name: "Output actions" }),
+    );
+    await userEvent.keyboard("{ArrowDown}");
+  },
 };

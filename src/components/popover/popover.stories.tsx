@@ -49,3 +49,7 @@ export const HoverAndKeyboard: Story = {
     children: <Button>Sign out</Button>,
   },
 };
+
+export const Open: Story = {
+  args: { defaultOpen: true },
+};

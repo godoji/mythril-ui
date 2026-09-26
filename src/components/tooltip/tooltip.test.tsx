@@ -21,6 +21,18 @@ describe("IconButton and Tooltip", () => {
     });
   });
 
+  it("places navigation labels beside icon-only buttons", async () => {
+    const user = userEvent.setup();
+    render(
+      <IconButton icon={Play} label="Workspace" tooltipPlacement="right" />,
+    );
+    await user.hover(screen.getByRole("button", { name: "Workspace" }));
+    expect(await screen.findByRole("tooltip")).toHaveAttribute(
+      "data-placement",
+      "right",
+    );
+  });
+
   it("opens on focus, dismisses with Escape, and preserves the ref and click handler", async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();

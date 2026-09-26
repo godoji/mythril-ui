@@ -74,6 +74,15 @@ export const Overview: Story = {
         ))}
       </div>
       <div className={styles.disabled}>
+        <strong>Selected navigation</strong>
+        <IconButton
+          icon={Settings2}
+          label="Selected settings"
+          variant="ghost"
+          aria-current="page"
+        />
+      </div>
+      <div className={styles.disabled}>
         <strong>Disabled</strong>
         <Button disabled>Unavailable</Button>
         <IconButton icon={Settings2} label="Settings unavailable" disabled />

@@ -5,6 +5,7 @@
   --mythril-input: oklch(0.155 0.004 260);
   --mythril-input-filled: oklch(0.245 0.005 260);
   --mythril-subtle: oklch(0.2 0.005 260);
+  --mythril-selected: oklch(0.31 0.006 260);
   --mythril-hover: oklch(1 0 0 / 5%);
   --mythril-text: oklch(0.955 0.003 260);
   --mythril-muted: oklch(0.68 0.012 260);
@@ -18,6 +19,13 @@
   --mythril-success: oklch(0.8 0.14 163);
   --mythril-warning: oklch(0.82 0.12 80);
   --mythril-info: oklch(0.72 0.02 260);
+  --mythril-space-1: 0.25rem;
+  --mythril-space-2: 0.5rem;
+  --mythril-space-3: 0.75rem;
+  --mythril-space-4: 1rem;
+  --mythril-space-6: 1.5rem;
+  --mythril-space-8: 2rem;
+  --mythril-radius-sm: 0.375rem;
   --mythril-radius: 0.625rem;
   --mythril-radius-panel: 0.75rem;
   --mythril-control-height: 2rem;
@@ -60,6 +68,7 @@
   --mythril-input: oklch(0.995 0.001 260);
   --mythril-input-filled: oklch(0.94 0.003 260);
   --mythril-subtle: oklch(0.965 0.003 260);
+  --mythril-selected: oklch(0.89 0.004 260);
   --mythril-hover: oklch(0.2 0 0 / 5%);
   --mythril-text: oklch(0.2 0.005 260);
   --mythril-muted: oklch(0.46 0.01 260);

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { fn } from "storybook/test";
+import { fn, userEvent, within } from "storybook/test";
 import { ContextMenu } from "./context-menu.js";
 
 const meta = {
@@ -30,3 +30,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Overview: Story = {};
+
+export const Open: Story = {
+  play: async ({ canvasElement }) => {
+    await userEvent.pointer({
+      keys: "[MouseRight]",
+      target: within(canvasElement).getByRole("button"),
+    });
+  },
+};
