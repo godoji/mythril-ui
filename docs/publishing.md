@@ -4,21 +4,20 @@
 - Repository: `https://github.com/godoji/mythril-ui`
 - Registry: `https://npm.pkg.github.com`
 
-Create the repository under `godoji` as public and push this project there. The
-local configuration does not create the repository or publish a package. The
-package is MIT licensed; see [LICENSE](../LICENSE).
+The repository is public under the `godoji` personal account. The package is MIT
+licensed; see [LICENSE](../LICENSE).
 
 ## Publish a release
 
-1. Confirm that the `godoji` organization allows public package creation and
-   that the release workflow has permission to publish packages.
-2. Update `version` in `package.json` and the lockfile together, for example with
-   `npm version patch --no-git-tag-version`. The initial version is `0.1.0`.
-3. Run `npm run check`, commit, and push the changes.
-4. Create and publish a GitHub release tagged `v0.1.0` (or `v` followed by the new
-   package version), pointing at the commit with that version.
-5. After the first publish, open the package settings in the `godoji` organization
-   and set **Change visibility → Public**. Verify the package page shows Public.
+1. Update `version` in `package.json` and the lockfile together, for example with
+   `npm version patch --no-git-tag-version`.
+2. Run `npm run check`, commit, and push the changes.
+3. Create and publish a GitHub release tagged `v` followed by the package version,
+   pointing at the commit with that version. Do not mark it as a prerelease.
+4. After the first publish, open the [godoji profile](https://github.com/godoji),
+   select **Packages**, then `mythril-ui` → **Package settings**. Under **Danger
+   Zone**, select **Change visibility → Public** and verify the package page shows
+   Public.
 
 The release workflow checks the repository, package name, version, and registry;
 runs the full check; and publishes with GitHub's built-in `GITHUB_TOKEN` and
