@@ -10,6 +10,8 @@ export interface TextareaProps
   extends ComponentPropsWithRef<"textarea">, FieldOptions {
   variant?: FieldVariant;
   autoResize?: boolean;
+  /** Allow manual vertical resizing; disabled by default and while autoResize is active. */
+  resizable?: boolean;
   maxRows?: number;
 }
 export const Textarea = ({
@@ -22,6 +24,7 @@ export const Textarea = ({
   rows = 3,
   variant = "filled",
   autoResize = false,
+  resizable = false,
   maxRows,
   ref,
   onInput,
@@ -83,6 +86,7 @@ export const Textarea = ({
         rows={rows}
         data-variant={variant}
         data-auto-resize={autoResize}
+        data-resizable={resizable}
         id={ids.id}
         className={cx(styles.control, className)}
         aria-describedby={ids.describedBy}

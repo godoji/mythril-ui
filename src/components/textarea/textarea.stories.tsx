@@ -21,6 +21,11 @@ export const Overview: Story = {
       }}
     >
       <Textarea label="Filled (default)" placeholder="Add context…" />
+      <Textarea
+        label="Manually resizable"
+        resizable
+        placeholder="Resize vertically…"
+      />
       <Textarea label="Outlined" variant="outline" placeholder="Add context…" />
       <Textarea label="Invalid" error="Notes are required." required />
       <Textarea label="Disabled" value="Locked" readOnly disabled />

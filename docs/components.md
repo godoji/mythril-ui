@@ -48,7 +48,8 @@ are imported from those projects.
   `label`. Its tooltip opens on hover or focus and matches its accessible name.
   A disabled button remains disabled;
   its wrapper adds a keyboard-focusable explanation, not an executable action.
-  Pass `boundary` to constrain its tooltip inside a container.
+  Pass `boundary` to constrain its tooltip inside a container. Use
+  `shape="circle"` for a circular icon-only button.
 - `Tooltip`: a single focusable child that forwards DOM props and its ref. Opens
   on hover/focus and dismisses on Escape. Content is text, not interactive UI.
   `placement` is a preference; Floating UI flips it when needed.
@@ -67,7 +68,9 @@ are imported from those projects.
   `optgroup` children. `Checkbox` supports `indeterminate`.
 - `TextField` remains a compatibility alias for `TextInput`.
 - `TextInput` also supports native number, date, time, and datetime-local types.
-  `Textarea autoResize` grows with content; `maxRows` caps its height. Use
+  Textareas cannot be manually resized by default; pass `resizable` to allow
+  vertical resizing. `Textarea autoResize` grows with content and disables manual
+  resizing; `maxRows` caps its height. Use
   `labelHidden` on TextInput, Textarea, Select, Combobox, or EntityPicker when a surrounding
   `FormRow` shows the same label. The native label stays accessible.
 - `ButtonLink` is a styled native anchor with the Button variants, sizes, and

@@ -6,3 +6,10 @@
 .iconButton[data-size="small"] {
   width: var(--mythril-control-height-small, 1.75rem);
 }
+.iconButton[data-shape="circle"],
+.iconButton[data-shape="circle"]:is(
+    [aria-current="page"],
+    [aria-pressed="true"]
+  ) {
+  border-radius: 50%;
+}

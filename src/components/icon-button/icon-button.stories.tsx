@@ -15,6 +15,12 @@ export const Overview: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
       <IconButton icon={Play} label="Run action" />
+      <IconButton
+        icon={Play}
+        label="Run action in circle"
+        shape="circle"
+        variant="primary"
+      />
       <IconButton icon={Settings2} label="Settings" size="small" />
       <IconButton icon={Trash2} label="Delete item" variant="danger" />
       <IconButton icon={Play} label="Run unavailable" disabled />

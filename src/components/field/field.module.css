@@ -108,10 +108,13 @@
   opacity: 0.5;
 }
 textarea.control {
-  resize: vertical;
+  resize: none;
   height: auto;
   min-height: 7rem;
   padding-block: 0.75rem;
+}
+textarea.control[data-resizable="true"] {
+  resize: vertical;
 }
 textarea.control[data-auto-resize="true"] {
   min-height: var(--mythril-control-height, 2rem);

@@ -18,6 +18,8 @@ export interface IconButtonProps extends Omit<
   tooltipPlacement?: Placement;
   /** Optional boundary for the icon-only tooltip. */
   boundary?: FloatingBoundary | null;
+  /** Circular outline for compact icon-only actions. */
+  shape?: "default" | "circle";
 }
 export const IconButton = ({
   icon,
@@ -27,6 +29,7 @@ export const IconButton = ({
   disabled = false,
   tooltipPlacement = "top",
   boundary,
+  shape = "default",
   ...props
 }: IconButtonProps): ReactElement => (
   <Tooltip
@@ -41,6 +44,7 @@ export const IconButton = ({
       icon={icon}
       disabled={disabled}
       aria-label={label}
+      data-shape={shape}
       className={cx(styles.iconButton, className)}
     />
   </Tooltip>
