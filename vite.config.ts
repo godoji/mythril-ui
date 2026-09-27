@@ -13,7 +13,7 @@ export default defineConfig({
     },
     rolldownOptions: {
       external:
-        /^(?:react(?:-dom)?(?:\/.*)?|@floating-ui\/react|lucide-react)$/,
+        /^(?:react(?:-dom)?(?:\/.*)?|@floating-ui\/react|lucide-react|react-markdown|remark-gfm)$/,
       output: { banner: '"use client";' },
     },
   },

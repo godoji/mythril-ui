@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { StackGap } from "./stack.js";
+import { Button } from "../button/button.js";
 import { Stack } from "./stack.js";
 
 const meta = {
@@ -25,6 +26,16 @@ export const Overview: Story = {
           </Stack>
         </div>
       ))}
+      <Stack
+        as="form"
+        gap="2"
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
+        <strong>Native form</strong>
+        <Button type="submit">Submit</Button>
+      </Stack>
     </div>
   ),
 };

@@ -75,13 +75,13 @@ can install the published package or a local tarball.
 
 | Area       | Components                                                                                                |
 | ---------- | --------------------------------------------------------------------------------------------------------- |
-| Actions    | Button, ButtonLink, IconButton, ToggleButton, Toolbar, Tooltip                                            |
+| Actions    | Button, ButtonLink, ChoiceButton, IconButton, ToggleButton, Toolbar, Tooltip                              |
 | Forms      | TextInput, Textarea, TextareaComposer, Select, Checkbox, Combobox, Listbox, EntityPicker, FileDropzone    |
 | Structure  | Disclosure, Accordion, Tabs, ResizablePanels, TreeView, PageHeader, Card, FormRow, FormActions, FilterBar |
 | Data       | DataTable, Pagination, DescriptionList, ImagePreview                                                      |
 | Feedback   | StatusBadge, Chip, Notice, Alert, UsageMeter, ToastProvider, LoadingState, EmptyState                     |
 | Overlays   | Dialog, Drawer, Popover, Menu, ContextMenu                                                                |
-| History    | ScrollArea with follow-latest, CodeBlock with copy and bounded preview                                    |
+| History    | ScrollArea with follow-latest, CodeBlock with copy and bounded preview, MarkdownContent                   |
 | Appearance | Theme with light/dark palettes and CSS token overrides                                                    |
 
 The original `TextField` export remains an alias for `TextInput`. Text inputs,
@@ -89,7 +89,8 @@ textareas, and selects default to a filled editor surface; use `variant="outline
 for a bordered field. `TextareaComposer` places an action row below a textarea in
 one surface. Fields share accessible labels, descriptions, errors, and native form/ref behavior. Floating UI
 handles overlay positioning and focus; Lucide React supplies icons. Both are runtime
-dependencies externalized from the library bundle.
+dependencies externalized from the library bundle. `MarkdownContent` uses the
+external `react-markdown` and `remark-gfm` runtime dependencies.
 
 Editor surfaces can compose `PageHeader`, `Card`, `FormRow`, `FilterBar`,
 `DataTable`, and `Pagination` without coupling the library to a router or API.
@@ -104,8 +105,8 @@ behavior with local fixture data. Use the theme toolbar to compare light and dar
 The example is not part of the published API and does not call any application API.
 
 See [component contracts and examples](docs/components.md) for state management,
-accessibility behavior, limitations, and theming. Workflow logic, Markdown parsing,
-log fetching/pagination, and task-specific components remain in the consuming app.
+accessibility behavior, limitations, and theming. Workflow logic, log
+fetching/pagination, and task-specific components remain in the consuming app.
 
 ## Styling
 

@@ -77,7 +77,13 @@ use their light fallback palette. No global reset is included.
 `Stack` arranges children vertically with `gap` values from the Mythril spacing
 scale (`"1"`, `"2"`, `"3"`, `"4"`, `"6"`, or `"8"`; default `"3"`). Put it around
 related controls or sections instead of adding margins to each child. It accepts
-native `div` props, including `className` and `ref`, and adds no padding.
+native `div` props, including `className` and `ref`, and adds no padding. Pass
+`as="form"` or `as="section"` to keep the native element and its typed props.
+
+`ChoiceButton` is a full-width native button for a selectable action. Pass `label`,
+optional `description` and `trailing` content, and `highlighted` for quiet visual
+emphasis. It defaults to `type="button"`; the consumer owns the choice and any
+meaning attached to the emphasis.
 
 `Inline` arranges children horizontally with the same spacing scale. Its `align`
 prop controls cross-axis alignment (`"center"` by default). Use `align="end"` to
@@ -278,12 +284,17 @@ copies the original text. Clipboard failures are announced with manual-copy
 guidance. Full expansion still renders the complete string: use application-level
 paging for very large logs. The library does not truncate or persist source data.
 
+`MarkdownContent` renders `content` with GitHub-flavored Markdown and compact
+typography. Raw HTML is omitted. External links open in a new tab with
+`noopener noreferrer`; in-page anchors stay in the current tab. It does not
+fetch, page, or persist content.
+
 ## Composition and verification
 
 **Examples → Readable history** combines the primitives with deterministic local
 fixtures, rich text, long logs, a composer, settings, and a confirmation dialog.
 It is excluded from package builds. Actual task switching, step navigation,
-Markdown rendering, grouped tool activity, approvals, guidance, paged log access,
+grouped tool activity, approvals, guidance, paged log access,
 artifact previews, and pipeline editing belong to Anvil.
 
 Behavior tests cover forms, keyboard interaction, focus trapping/return, nested

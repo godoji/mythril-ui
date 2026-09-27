@@ -14,6 +14,10 @@ export { Theme } from "./components/theme/theme.js";
 export type { ThemeProps, ThemeTokens } from "./components/theme/theme.js";
 export { Stack } from "./components/stack/stack.js";
 export type { StackProps, StackGap } from "./components/stack/stack.js";
+export { ChoiceButton } from "./components/choice-button/choice-button.js";
+export type { ChoiceButtonProps } from "./components/choice-button/choice-button.js";
+export { MarkdownContent } from "./components/markdown-content/markdown-content.js";
+export type { MarkdownContentProps } from "./components/markdown-content/markdown-content.js";
 export { Inline } from "./components/inline/inline.js";
 export type {
   InlineProps,

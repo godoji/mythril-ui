@@ -80,7 +80,7 @@ try {
     `
 import { createRef } from "react";
 import { createRoot } from "react-dom/client";
-import { Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
+import { Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, ChoiceButton, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, MarkdownContent, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, Stack, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
 import { Play, Plus } from "lucide-react";
 import type { ButtonProps, FieldVariant, FloatingBoundary, TextFieldProps } from "@godoji/mythril-ui";
 import "@godoji/mythril-ui/styles.css";
@@ -94,6 +94,8 @@ const invalid: ButtonProps = { variant: "unknown" };
 void invalid;
 createRoot(document.getElementById("root")!).render(<Theme mode="dark" tokens={{ "--mythril-radius": "2px" }}>
   <Button {...button} icon={Plus}>Save</Button><TextField {...field} />
+  <ChoiceButton label="Continue" highlighted /><MarkdownContent content="**Ready**" />
+  <Stack as="form" onSubmit={(event) => event.preventDefault()}><Button type="submit">Submit</Button></Stack>
   <TextInput label="Name" variant="outline" /><Textarea label="Notes" /><TextareaComposer label="Add a note" actions={<Button type="submit">Add note</Button>} /><Select label="Format"><option>Text</option></Select><Checkbox label="Confirm" />
   <IconButton icon={Play} label="Run" boundary={boundary} /><Tooltip label="Help" boundary={boundary}><Button>Help</Button></Tooltip><StatusBadge tone="success">Complete</StatusBadge><Notice>Ready</Notice><Alert>Check this</Alert>
   <Accordion label="Details" items={[{ value: "one", title: "One", content: "Details" }]} />

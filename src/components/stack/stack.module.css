@@ -5,6 +5,10 @@
   gap: var(--mythril-space-3, 0.75rem);
 }
 
+.stack > p {
+  margin-block: 0;
+}
+
 .stack[data-gap="1"] {
   gap: var(--mythril-space-1, 0.25rem);
 }
