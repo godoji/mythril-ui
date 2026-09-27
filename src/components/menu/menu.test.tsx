@@ -38,6 +38,22 @@ describe("Menu", () => {
     });
   });
 
+  it("shows a focus ring only after keyboard interaction", async () => {
+    const user = userEvent.setup();
+    render(
+      <Menu
+        label="Actions"
+        trigger={<Button>Actions</Button>}
+        items={[{ id: "copy", label: "Copy", onSelect: vi.fn() }]}
+      />,
+    );
+    await user.click(screen.getByRole("button", { name: "Actions" }));
+    const menu = await screen.findByRole("menu");
+    expect(menu).toHaveAttribute("data-keyboard-focus", "false");
+    await user.keyboard("{ArrowDown}");
+    expect(menu).toHaveAttribute("data-keyboard-focus", "true");
+  });
+
   it("closes on Escape without selecting an action", async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();

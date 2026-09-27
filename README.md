@@ -1,7 +1,8 @@
 # Mythril
 
-A reusable React 19 component library for Anvil and future projects. Start small:
-native controls, typed APIs, locally scoped styles, and no application behavior.
+A compact React 19 component library for editors, administration tools, and
+workspaces. Native controls, typed APIs, locally scoped styles, and light/dark
+themes, with application behavior owned by the consumer.
 
 ## Development
 
@@ -14,6 +15,10 @@ npm run dev
 
 Storybook runs locally at http://127.0.0.1:6006. It provides interactive controls,
 generated prop documentation, component states, and an accessibility panel.
+Start with **Start here / Welcome** and the searchable **Component directory**.
+The **Admin workspace** examples demonstrate a catalog, product editor, multilingual
+content studio, analytics, and compact navigation. See the
+[admin component guide](docs/admin-components.md) for API contracts and composition recipes.
 
 ```sh
 npm run check            # formatting, lint, types, tests, package and Storybook builds
@@ -41,7 +46,7 @@ registry authentication and releases. Local packaging also works without publish
 npm pack
 
 # In a consuming React 19 project:
-npm install /absolute/path/to/mythril/godoji-mythril-ui-0.1.0.tgz
+npm install /absolute/path/to/mythril/godoji-mythril-ui-0.2.0.tgz
 ```
 
 ```tsx
@@ -68,8 +73,7 @@ Output is ESM-only and targets modern browsers. React 18 and CommonJS consumers
 are not currently supported. The JS bundle carries a `use client` boundary for
 React Server Component hosts, and can still be server-rendered by React DOM.
 
-The sibling Anvil checkout currently uses a local file dependency. Other consumers
-can install the published package or a local tarball.
+Consumers can install the published package or validate a local tarball before upgrading.
 
 ## Components
 
@@ -138,3 +142,14 @@ See [linting decisions](docs/linting.md) for how the supplied ESLint reference w
 adapted. Version public API changes deliberately and run `npm run check` before
 sharing a package. Publishing a stable GitHub release triggers validation and then
 publishing to GitHub Packages; the release tag must match the package version.
+
+## Administration components
+
+Navigation and layout: AppShell, Navigation, NavigationLink, NavigationAction,
+NavigationGroup, PageContainer, Grid, LinkCard.
+
+Editing and data: LocalizedField, NumberField, CollectionEditor, remote Combobox,
+EntityPicker with field errors and refs, Stat, ChartFrame, and MessagesProvider.
+
+See [Building administration interfaces](docs/admin-components.md) for examples,
+form contracts, router adapters, and the boundary between UI and application logic.

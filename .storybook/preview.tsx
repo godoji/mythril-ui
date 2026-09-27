@@ -12,7 +12,7 @@ const preview: Preview = {
       },
     },
   },
-  initialGlobals: { theme: "dark" },
+  initialGlobals: { theme: "light" },
   decorators: [
     (Story, context) => (
       <Theme
@@ -31,7 +31,16 @@ const preview: Preview = {
     layout: "fullscreen",
     controls: { expanded: true },
     a11y: { test: "error" },
-    options: { storySort: { order: ["Examples", "Components"] } },
+    options: {
+      storySort: {
+        order: [
+          "Start here",
+          ["Welcome", "Component directory"],
+          "Examples",
+          "Components",
+        ],
+      },
+    },
   },
 };
 

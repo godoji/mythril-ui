@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { Button } from "../button/button.js";
 import { Select } from "../select/select.js";
+import { useComponentMessages } from "../messages/messages.js";
 import styles from "./pagination.module.css";
 
 interface CommonProps {
@@ -48,6 +49,7 @@ const visiblePages = (page: number, totalPages: number): number[] => {
 
 /** Controlled navigation for known or unknown page counts. */
 export const Pagination = (props: PaginationProps): ReactElement => {
+  const messages = useComponentMessages();
   if (props.mode === "load-more") {
     return (
       <nav aria-label={props.label} className={props.className}>
@@ -55,7 +57,7 @@ export const Pagination = (props: PaginationProps): ReactElement => {
           disabled={!props.hasNextPage || props.loading}
           onClick={props.onLoadMore}
         >
-          {props.loading ? "Loading…" : "Show more"}
+          {props.loading ? messages.loading : messages.showMore}
         </Button>
       </nav>
     );
@@ -85,18 +87,21 @@ export const Pagination = (props: PaginationProps): ReactElement => {
           onPageChange(page - 1);
         }}
       >
-        Previous
+        {messages.previous}
       </Button>
       <span
         className={
           totalPages === undefined ? styles.position : styles.visuallyHidden
         }
       >
-        Page {page}
-        {totalPages !== undefined ? ` of ${String(totalPages)}` : ""}
+        {messages.pagePosition(page, totalPages)}
       </span>
       {totalPages !== undefined && (
-        <span className={styles.pageNumbers} role="group" aria-label="Pages">
+        <span
+          className={styles.pageNumbers}
+          role="group"
+          aria-label={messages.pages}
+        >
           {pages.map((number, index) => (
             <span key={number} className={styles.pageSlot}>
               {index > 0 && number - (pages[index - 1] ?? 0) > 1 && (
@@ -113,7 +118,7 @@ export const Pagination = (props: PaginationProps): ReactElement => {
                   size="small"
                   variant="ghost"
                   className={styles.pageButton}
-                  aria-label={`Go to page ${String(number)}`}
+                  aria-label={messages.goToPage(number)}
                   disabled={loading}
                   onClick={() => {
                     onPageChange(number);
@@ -133,11 +138,11 @@ export const Pagination = (props: PaginationProps): ReactElement => {
           onPageChange(page + 1);
         }}
       >
-        Next
+        {messages.next}
       </Button>
       {pageSize !== undefined && onPageSizeChange && pageSizeOptions && (
         <Select
-          label="Results per page"
+          label={messages.resultsPerPage}
           labelHidden
           className={styles.pageSize}
           value={pageSize}
@@ -148,7 +153,7 @@ export const Pagination = (props: PaginationProps): ReactElement => {
         >
           {pageSizeOptions.map((option) => (
             <option key={option} value={option}>
-              {option} per page
+              {messages.perPage(option)}
             </option>
           ))}
         </Select>

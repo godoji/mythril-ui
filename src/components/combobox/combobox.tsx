@@ -20,6 +20,7 @@ import { Field, useFieldIds } from "../field/field.js";
 import type { FieldOptions, FieldVariant } from "../field/field.js";
 import fieldStyles from "../field/field.module.css";
 import { OverlayTheme } from "../theme/theme.js";
+import { useComponentMessages } from "../messages/messages.js";
 import styles from "./combobox.module.css";
 
 export interface ComboboxOption {
@@ -30,6 +31,15 @@ export interface ComboboxOption {
 }
 export interface ComboboxProps extends FieldOptions {
   options: readonly ComboboxOption[];
+  /** Keep the current label available outside the current remote result page. */
+  selectedOption?: ComboboxOption;
+  query?: string;
+  defaultQuery?: string;
+  onQueryChange?: (query: string) => void;
+  filterMode?: "local" | "provided";
+  loading?: boolean;
+  loadingMessage?: string;
+  onOptionSelect?: (option: ComboboxOption) => void;
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -53,11 +63,19 @@ export const Combobox = ({
   description,
   error,
   options,
+  selectedOption,
+  query: controlledQuery,
+  defaultQuery = "",
+  onQueryChange,
+  filterMode = "local",
+  loading = false,
+  loadingMessage,
+  onOptionSelect,
   value: controlledValue,
   defaultValue = "",
   onValueChange,
   placeholder,
-  emptyMessage = "No results",
+  emptyMessage,
   name,
   id,
   disabled = false,
@@ -68,21 +86,33 @@ export const Combobox = ({
   ref,
   "aria-describedby": describedBy,
 }: ComboboxProps): ReactElement => {
+  const messages = useComponentMessages();
   const ids = useFieldIds(id, description, error, describedBy);
   const [value, setValue] = useControllable(
     controlledValue,
     defaultValue,
     onValueChange,
   );
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useControllable(
+    controlledQuery,
+    defaultQuery,
+    onQueryChange,
+  );
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const selected = options.find((option) => option.value === value);
-  const filtered = options.filter((option) =>
-    `${option.label} ${option.description ?? ""}`
-      .toLocaleLowerCase()
-      .includes(query.trim().toLocaleLowerCase()),
-  );
+  const selected =
+    selectedOption?.value === value
+      ? selectedOption
+      : options.find((option) => option.value === value);
+  const filtered = loading
+    ? []
+    : filterMode === "provided"
+      ? options
+      : options.filter((option) =>
+          `${option.label} ${option.description ?? ""}`
+            .toLocaleLowerCase()
+            .includes(query.trim().toLocaleLowerCase()),
+        );
   const enabled = filtered.flatMap((option, index) =>
     option.disabled ? [] : [index],
   );
@@ -123,6 +153,7 @@ export const Combobox = ({
   const referenceProps = getReferenceProps();
   const choose = (option: ComboboxOption): void => {
     setValue(option.value);
+    onOptionSelect?.(option);
     setQuery("");
     setOpen(false);
     inputRef.current?.focus();
@@ -245,11 +276,20 @@ export const Combobox = ({
               id={listId}
               role="listbox"
               aria-label={label}
+              aria-busy={loading}
               className={styles.listbox}
               style={floatingStyles}
             >
-              {filtered.length === 0 && (
-                <div className={styles.empty}>{emptyMessage}</div>
+              {loading ? (
+                <div className={styles.empty} role="status">
+                  {loadingMessage ?? messages.loading}
+                </div>
+              ) : (
+                filtered.length === 0 && (
+                  <div className={styles.empty}>
+                    {emptyMessage ?? messages.noResults}
+                  </div>
+                )
               )}
               {filtered.map((option, index) => (
                 <div

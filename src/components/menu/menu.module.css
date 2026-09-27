@@ -10,6 +10,10 @@
   background: var(--mythril-surface, #fff);
   color: var(--mythril-text, #202020);
   box-shadow: var(--mythril-panel-shadow, 0 12px 40px #0004);
+  outline: 0;
+}
+.menu[data-keyboard-focus="true"]:focus-visible {
+  outline: 2px solid var(--mythril-focus, #2563eb);
 }
 .item {
   box-sizing: border-box;
@@ -25,6 +29,7 @@
   background: transparent;
   color: inherit;
   cursor: pointer;
+  outline: 0;
 }
 .item:hover:not(:disabled) {
   background: var(--mythril-hover, #ebebeb);
@@ -32,7 +37,7 @@
 .item:focus {
   background: var(--mythril-selected, #e6e6e6);
 }
-.item:focus-visible {
+.menu[data-keyboard-focus="true"] .item:focus-visible {
   outline: 2px solid var(--mythril-focus, #2563eb);
   outline-offset: -2px;
 }

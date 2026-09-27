@@ -1,0 +1,39 @@
+.frame {
+  border: 1px solid var(--mythril-border);
+  border-radius: var(--mythril-radius-panel);
+  overflow: hidden;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mythril-space-3);
+}
+.bars {
+  display: flex;
+  align-items: end;
+  gap: var(--mythril-space-4);
+  height: 13rem;
+  padding-top: var(--mythril-space-4);
+  border-bottom: 1px solid var(--mythril-chart-grid);
+}
+.barColumn {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: end;
+  align-items: stretch;
+  height: 100%;
+  text-align: center;
+  gap: var(--mythril-space-2);
+  color: var(--mythril-chart-text);
+}
+.barColumn > span {
+  display: block;
+  background: var(--mythril-chart-1);
+  border-radius: var(--mythril-radius-sm) var(--mythril-radius-sm) 0 0;
+  min-height: 1px;
+}
+.barColumn:nth-child(even) > span {
+  background: var(--mythril-chart-2);
+}

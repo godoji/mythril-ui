@@ -1,0 +1,66 @@
+.explore {
+  display: grid;
+  gap: var(--mythril-space-6);
+  max-width: 80rem;
+  margin-inline: auto;
+}
+.intro {
+  max-width: 48rem;
+}
+.intro h1 {
+  font-size: 2rem;
+  margin: 0 0 var(--mythril-space-2);
+  letter-spacing: -0.025em;
+}
+.intro p {
+  color: var(--mythril-muted);
+  margin: 0;
+  font-size: 1rem;
+}
+.section h2 {
+  font-size: 1.125rem;
+  margin: 0 0 var(--mythril-space-3);
+}
+.preview {
+  display: grid;
+  gap: var(--mythril-space-3);
+  padding: var(--mythril-space-4);
+  border: 1px solid var(--mythril-border);
+  border-radius: var(--mythril-radius-panel);
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mythril-space-2);
+  margin-top: var(--mythril-space-3);
+}
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--mythril-space-3);
+}
+.catalog a {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mythril-space-1);
+  padding: var(--mythril-space-3);
+  border: 1px solid var(--mythril-border);
+  border-radius: var(--mythril-radius);
+  color: var(--mythril-text);
+  text-decoration: none;
+  background: var(--mythril-surface);
+}
+.catalog a:hover {
+  background: var(--mythril-subtle);
+}
+.catalog a:focus-visible {
+  outline: 2px solid var(--mythril-focus);
+  outline-offset: 2px;
+}
+.catalog small {
+  color: var(--mythril-muted);
+}
+.count {
+  color: var(--mythril-muted);
+  font-size: 0.875rem;
+}

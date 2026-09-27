@@ -1,10 +1,11 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import type { ChangeEvent, KeyboardEvent, ReactElement } from "react";
+import type { ChangeEvent, KeyboardEvent, ReactElement, Ref } from "react";
 import {
   FloatingPortal,
   useDismiss,
   useFloating,
   useInteractions,
+  useMergeRefs,
 } from "@floating-ui/react";
 import type { Placement } from "@floating-ui/react";
 import { Check, Search } from "lucide-react";
@@ -20,14 +21,17 @@ import { Chip } from "../chip/chip.js";
 import { Field, useFieldIds } from "../field/field.js";
 import fieldStyles from "../field/field.module.css";
 import { OverlayTheme } from "../theme/theme.js";
+import type { FieldOptions } from "../field/field.js";
+import { useComponentMessages } from "../messages/messages.js";
 import styles from "./entity-picker.module.css";
 
 export type EntityPickerOption = ComboboxOption;
 export type EntityPickerLayout = "separate" | "inline";
 export type EntityPickerFilterMode = "provided" | "prefix";
-export interface EntityPickerProps {
-  label: string;
-  labelHidden?: boolean;
+export interface EntityPickerProps extends FieldOptions {
+  id?: string;
+  ref?: Ref<HTMLInputElement>;
+  "aria-describedby"?: string;
   selected: readonly EntityPickerOption[];
   options: readonly EntityPickerOption[];
   onSelectedChange: (selected: EntityPickerOption[]) => void;
@@ -53,6 +57,11 @@ export interface EntityPickerProps {
 export const EntityPicker = ({
   label,
   labelHidden,
+  id,
+  ref,
+  description,
+  error,
+  "aria-describedby": describedBy,
   selected,
   options,
   onSelectedChange,
@@ -62,8 +71,8 @@ export const EntityPicker = ({
   loading = false,
   disabled = false,
   maxSelected,
-  placeholder = "Search…",
-  emptyMessage = "No results",
+  placeholder,
+  emptyMessage,
   name,
   boundary,
   placement = "bottom-start",
@@ -71,7 +80,8 @@ export const EntityPicker = ({
   filterMode = "provided",
   className,
 }: EntityPickerProps): ReactElement => {
-  const ids = useFieldIds(undefined, undefined, undefined, undefined);
+  const messages = useComponentMessages();
+  const ids = useFieldIds(id, description, error, describedBy);
   const [query, setQuery] = useControllable(
     controlledQuery,
     defaultQuery,
@@ -111,6 +121,13 @@ export const EntityPicker = ({
     middleware: floatingMiddleware(4, boundary, "end"),
     whileElementsMounted: floatingAutoUpdate(boundary),
   });
+  const setReference = useCallback(
+    (element: HTMLInputElement | null): void => {
+      if (layout === "separate") refs.setReference(element);
+    },
+    [layout, refs],
+  );
+  const mergedRef = useMergeRefs([inputRef, ref, setReference]);
   const dismiss = useDismiss(context, { escapeKey: false });
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
   const setFloating = useCallback(
@@ -176,14 +193,20 @@ export const EntityPicker = ({
           selected.filter((entry) => entry.value !== item.value),
         );
       }}
-      removeLabel={`Remove ${item.label}`}
+      removeLabel={messages.remove(item.label)}
     >
       {item.label}
     </Chip>
   ));
   return (
     <div className={cx(styles.root, className)}>
-      <Field label={label} labelHidden={labelHidden ?? false} ids={ids}>
+      <Field
+        label={label}
+        labelHidden={labelHidden ?? false}
+        ids={ids}
+        {...(description !== undefined && { description })}
+        {...(error !== undefined && { error })}
+      >
         <div
           className={styles.inputWrap}
           data-layout={layout}
@@ -201,14 +224,13 @@ export const EntityPicker = ({
           )}
           <input
             {...getReferenceProps()}
-            ref={(element) => {
-              inputRef.current = element;
-              if (layout === "separate") refs.setReference(element);
-            }}
+            ref={mergedRef}
             id={ids.id}
             type="text"
             role="combobox"
             aria-autocomplete="list"
+            aria-describedby={ids.describedBy}
+            aria-invalid={Boolean(error)}
             aria-expanded={open}
             aria-controls={open ? listId : undefined}
             aria-activedescendant={
@@ -219,7 +241,7 @@ export const EntityPicker = ({
             className={cx(fieldStyles.control, styles.input)}
             data-variant="filled"
             value={query}
-            placeholder={placeholder}
+            placeholder={placeholder ?? messages.search}
             disabled={disabled}
             onFocus={() => {
               setOpen(true);
@@ -240,7 +262,7 @@ export const EntityPicker = ({
         </div>
       </Field>
       {layout === "separate" && selected.length > 0 && (
-        <div className={styles.selected} aria-label={`${label} selected`}>
+        <div className={styles.selected} aria-label={messages.selected(label)}>
           {selectedChips}
         </div>
       )}
@@ -269,10 +291,12 @@ export const EntityPicker = ({
             >
               {loading ? (
                 <div className={styles.message} role="status">
-                  Loading…
+                  {messages.loading}
                 </div>
               ) : availableOptions.length === 0 ? (
-                <div className={styles.message}>{emptyMessage}</div>
+                <div className={styles.message}>
+                  {emptyMessage ?? messages.noResults}
+                </div>
               ) : (
                 availableOptions.map((option, index) => (
                   <div

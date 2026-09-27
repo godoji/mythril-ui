@@ -1,0 +1,53 @@
+.root {
+  display: grid;
+  gap: var(--mythril-space-3, 0.75rem);
+}
+.list {
+  display: grid;
+  gap: var(--mythril-space-3, 0.75rem);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.item {
+  padding: var(--mythril-space-3, 0.75rem);
+  border: 1px solid var(--mythril-border, #ccc);
+  border-radius: var(--mythril-radius, 0.625rem);
+  background: var(--mythril-surface, #fff);
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mythril-space-2, 0.5rem);
+  margin-bottom: var(--mythril-space-2, 0.5rem);
+}
+.header h3 {
+  margin: 0;
+  font-size: 0.875rem;
+}
+.header h3:focus-visible {
+  outline: 2px solid var(--mythril-focus, #596ca0);
+}
+.actions {
+  display: flex;
+  flex: none;
+  gap: var(--mythril-space-1, 0.25rem);
+}
+.content {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.empty {
+  margin: 0;
+  color: var(--mythril-muted, #606060);
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

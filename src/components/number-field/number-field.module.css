@@ -1,0 +1,14 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--mythril-space-2, 0.5rem);
+}
+.wrap > span {
+  flex: none;
+  color: var(--mythril-muted, #606060);
+}
+.input {
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}

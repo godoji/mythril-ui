@@ -1,5 +1,11 @@
 import { useCallback, cloneElement, useEffect, useRef, useState } from "react";
-import type { HTMLProps, KeyboardEvent, MouseEvent, ReactElement } from "react";
+import type {
+  HTMLProps,
+  KeyboardEvent,
+  MouseEvent,
+  PointerEvent,
+  ReactElement,
+} from "react";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -48,6 +54,7 @@ export const Menu = ({
   openOn = "click",
 }: MenuProps): ReactElement => {
   const [open, setOpen] = useState(false);
+  const [keyboardFocus, setKeyboardFocus] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const listRef = useRef<(HTMLElement | null)[]>([]);
   const labelsRef = useRef<(string | null)[]>([]);
@@ -126,7 +133,17 @@ export const Menu = ({
   return (
     <>
       {cloneElement(trigger, {
-        ...getReferenceProps(trigger.props),
+        ...getReferenceProps({
+          ...trigger.props,
+          onPointerDown: (event: PointerEvent<HTMLElement>) => {
+            trigger.props.onPointerDown?.(event);
+            setKeyboardFocus(false);
+          },
+          onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
+            trigger.props.onKeyDown?.(event);
+            setKeyboardFocus(true);
+          },
+        }),
         ...(openOn === "contextmenu" && {
           onContextMenu: (event: MouseEvent<HTMLElement>): void => {
             trigger.props.onContextMenu?.(event);
@@ -136,6 +153,7 @@ export const Menu = ({
           },
           onKeyDown: (event: KeyboardEvent<HTMLElement>): void => {
             trigger.props.onKeyDown?.(event);
+            setKeyboardFocus(true);
             if (event.defaultPrevented) return;
             if (
               event.key !== "ContextMenu" &&
@@ -158,7 +176,15 @@ export const Menu = ({
                 style={floatingStyles}
                 data-placement={actualPlacement}
                 className={styles.menu}
-                {...getFloatingProps()}
+                data-keyboard-focus={keyboardFocus}
+                {...getFloatingProps({
+                  onKeyDown: () => {
+                    setKeyboardFocus(true);
+                  },
+                  onPointerDown: () => {
+                    setKeyboardFocus(false);
+                  },
+                })}
                 aria-labelledby={undefined}
                 aria-label={label}
               >

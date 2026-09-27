@@ -80,7 +80,7 @@ try {
     `
 import { createRef } from "react";
 import { createRoot } from "react-dom/client";
-import { Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, ChoiceButton, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, MarkdownContent, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, Stack, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
+import { AppShell, Navigation, NavigationLink, NavigationAction, NavigationGroup, PageContainer, Grid, LinkCard, LocalizedField, CollectionEditor, Stat, ChartFrame, MessagesProvider, NumberField, Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, ChoiceButton, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, MarkdownContent, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, Stack, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
 import { Play, Plus } from "lucide-react";
 import type { ButtonProps, FieldVariant, FloatingBoundary, TextFieldProps } from "@godoji/mythril-ui";
 import "@godoji/mythril-ui/styles.css";
@@ -93,6 +93,13 @@ const boundary: FloatingBoundary = createRef<HTMLDivElement>();
 const invalid: ButtonProps = { variant: "unknown" };
 void invalid;
 createRoot(document.getElementById("root")!).render(<Theme mode="dark" tokens={{ "--mythril-radius": "2px" }}>
+  <MessagesProvider messages={{ next: "Next page" }}><Pagination label="Pages" page={1} onPageChange={() => {}} /></MessagesProvider>
+  <AppShell header="Workspace" navigation={<Navigation label="Main"><NavigationLink href="/products" label="Products" /><NavigationGroup label="More"><NavigationAction label="Settings" /></NavigationGroup></Navigation>} mobileNavigation={(close) => <Button onClick={close}>Close</Button>}><PageContainer><Grid><LinkCard href="/products" title="Products" /></Grid></PageContainer></AppShell>
+  <LocalizedField label="Title" locales={[{ code: "en", label: "English" }]} values={{ en: "Title" }} onValueChange={() => {}} />
+  <CollectionEditor label="Sections" items={[]} onMove={() => {}} onRemove={() => {}} />
+  <NumberField label="Price" value="12.50" onValueChange={() => {}} />
+  <Stat label="Orders" value="12" /><ChartFrame label="Orders" summary="12 orders">Chart renderer</ChartFrame>
+  <Combobox label="Remote record" filterMode="provided" query="" onQueryChange={() => {}} options={[]} selectedOption={{ value: "one", label: "One" }} value="one" />
   <Button {...button} icon={Plus}>Save</Button><TextField {...field} />
   <ChoiceButton label="Continue" highlighted /><MarkdownContent content="**Ready**" />
   <Stack as="form" onSubmit={(event) => event.preventDefault()}><Button type="submit">Submit</Button></Stack>

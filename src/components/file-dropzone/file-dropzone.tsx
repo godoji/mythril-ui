@@ -3,6 +3,7 @@ import type { DragEvent, ReactElement } from "react";
 import { Upload } from "lucide-react";
 import { Button } from "../button/button.js";
 import { cx } from "../../lib/classes.js";
+import { useComponentMessages } from "../messages/messages.js";
 import styles from "./file-dropzone.module.css";
 
 export interface FileDropzoneProps {
@@ -27,6 +28,7 @@ export const FileDropzone = ({
   onFiles,
   className,
 }: FileDropzoneProps): ReactElement => {
+  const messages = useComponentMessages();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const unavailable = disabled || busy;
@@ -69,7 +71,7 @@ export const FileDropzone = ({
         disabled={unavailable}
         onClick={() => inputRef.current?.click()}
       >
-        {busy ? "Uploading…" : "Choose file"}
+        {busy ? messages.uploading : messages.chooseFile}
       </Button>
       <input
         ref={inputRef}

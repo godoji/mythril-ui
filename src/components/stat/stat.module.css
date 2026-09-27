@@ -1,0 +1,47 @@
+.stat,
+.chart {
+  border: 1px solid var(--mythril-border, #ccc);
+  background: var(--mythril-surface, #fff);
+  border-radius: var(--mythril-radius-panel, 0.75rem);
+  padding: var(--mythril-space-4, 1rem);
+  min-width: 0;
+  margin: 0;
+}
+.stat dl {
+  margin: 0;
+}
+.stat dt,
+.detail {
+  color: var(--mythril-muted, #606060);
+  font-size: 0.8125rem;
+}
+.stat dd {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin: var(--mythril-space-1, 0.25rem) 0;
+}
+.detail[data-tone="success"] {
+  color: var(--mythril-success, #237a50);
+}
+.detail[data-tone="warning"] {
+  color: var(--mythril-warning, #886010);
+}
+.detail[data-tone="danger"] {
+  color: var(--mythril-danger, #b52c39);
+}
+.chart {
+  --mythril-chart-1: var(--mythril-accent, #454545);
+  --mythril-chart-2: var(--mythril-info, #526486);
+  --mythril-chart-3: var(--mythril-success, #237a50);
+  --mythril-chart-grid: var(--mythril-divider, #ddd);
+  --mythril-chart-text: var(--mythril-muted, #606060);
+}
+.plot {
+  min-width: 0;
+  margin-block: var(--mythril-space-4, 1rem);
+}
+.chart summary {
+  cursor: pointer;
+  color: var(--mythril-muted, #606060);
+}
