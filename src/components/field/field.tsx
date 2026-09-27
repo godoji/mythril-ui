@@ -1,5 +1,5 @@
-import { useId } from "react";
-import type { ReactElement, ReactNode } from "react";
+import { useId, useState } from "react";
+import type { FocusEvent, ReactElement, ReactNode } from "react";
 import styles from "./field.module.css";
 
 export interface FieldOptions {
@@ -49,25 +49,43 @@ export const Field = ({
   ids,
   inline = false,
   children,
-}: FieldProps): ReactElement => (
-  <div className={styles.field} data-inline={inline}>
-    {inline && children}
-    <label
-      className={labelHidden ? styles.visuallyHidden : styles.label}
-      htmlFor={ids.id}
+}: FieldProps): ReactElement => {
+  const [showFocusRing, setShowFocusRing] = useState(true);
+  return (
+    <div
+      className={styles.field}
+      data-inline={inline}
+      data-focus-ring={showFocusRing}
+      onPointerDownCapture={() => {
+        setShowFocusRing(false);
+      }}
+      onKeyDownCapture={(event) => {
+        if (event.key === "Tab") setShowFocusRing(true);
+      }}
+      onBlurCapture={(event: FocusEvent<HTMLDivElement>) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setShowFocusRing(true);
+        }
+      }}
     >
-      {label}
-    </label>
-    {!inline && children}
-    {description && (
-      <p className={styles.description} id={ids.descriptionId}>
-        {description}
-      </p>
-    )}
-    {error && (
-      <p className={styles.error} id={ids.errorId}>
-        {error}
-      </p>
-    )}
-  </div>
-);
+      {inline && children}
+      <label
+        className={labelHidden ? styles.visuallyHidden : styles.label}
+        htmlFor={ids.id}
+      >
+        {label}
+      </label>
+      {!inline && children}
+      {description && (
+        <p className={styles.description} id={ids.descriptionId}>
+          {description}
+        </p>
+      )}
+      {error && (
+        <p className={styles.error} id={ids.errorId}>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};

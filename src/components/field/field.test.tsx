@@ -35,6 +35,28 @@ describe("labeled form controls", () => {
     });
   });
 
+  it("shows focus styling only after keyboard navigation", async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <TextInput label="Name" />
+        <button type="button">Next</button>
+      </>,
+    );
+    const input = screen.getByRole("textbox", { name: "Name" });
+    const field = input.closest("[data-focus-ring]");
+    expect(field).toHaveAttribute("data-focus-ring", "true");
+
+    await user.click(input);
+    expect(input).toHaveFocus();
+    expect(field).toHaveAttribute("data-focus-ring", "false");
+
+    await user.tab();
+    await user.tab({ shift: true });
+    expect(input).toHaveFocus();
+    expect(field).toHaveAttribute("data-focus-ring", "true");
+  });
+
   it("associates hints, errors, and external descriptions on every field", () => {
     render(
       <>

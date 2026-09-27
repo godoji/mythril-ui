@@ -5,7 +5,7 @@
   border-radius: var(--mythril-radius, 0.625rem);
   background: var(--mythril-input-filled, #f3f3f3);
 }
-.composer:focus-within {
+.composer:has([data-focus-ring="true"] .textarea:focus-visible) {
   outline: 2px solid var(--mythril-focus, #2563eb);
   outline-offset: 2px;
 }

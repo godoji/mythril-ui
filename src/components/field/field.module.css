@@ -65,6 +65,17 @@
 .control:focus-visible {
   border-color: var(--mythril-focus, #2563eb);
 }
+.field[data-focus-ring="false"] :is(.control, .checkbox):focus-visible {
+  outline: 0;
+}
+.field[data-focus-ring="false"]
+  .control:focus-visible:not([aria-invalid="true"]) {
+  border-color: var(--mythril-border, #767676);
+}
+.field[data-focus-ring="false"]
+  .control[data-variant="filled"]:focus-visible:not([aria-invalid="true"]) {
+  border-color: transparent;
+}
 .control[aria-invalid="true"],
 .checkbox[aria-invalid="true"] {
   border-color: var(--mythril-danger, #b91c1c);

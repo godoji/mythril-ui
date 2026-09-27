@@ -1,0 +1,22 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: var(--mythril-space-3, 0.75rem);
+}
+
+.stack[data-gap="1"] {
+  gap: var(--mythril-space-1, 0.25rem);
+}
+.stack[data-gap="2"] {
+  gap: var(--mythril-space-2, 0.5rem);
+}
+.stack[data-gap="4"] {
+  gap: var(--mythril-space-4, 1rem);
+}
+.stack[data-gap="6"] {
+  gap: var(--mythril-space-6, 1.5rem);
+}
+.stack[data-gap="8"] {
+  gap: var(--mythril-space-8, 2rem);
+}

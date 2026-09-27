@@ -28,15 +28,40 @@ const Example = (): ReactElement => {
     </div>
   );
 };
+const InlineExample = (): ReactElement => {
+  const [selected, setSelected] = useState<EntityPickerOption[]>([]);
+  return (
+    <div style={{ width: "20rem" }}>
+      <EntityPicker
+        label="Allowed tools"
+        selected={selected}
+        onSelectedChange={setSelected}
+        options={[
+          { value: "read", label: "read" },
+          { value: "write", label: "write" },
+          { value: "grep", label: "grep" },
+        ]}
+        layout="inline"
+        filterMode="prefix"
+        placeholder="Add tool…"
+      />
+    </div>
+  );
+};
 const meta = {
   title: "Components/EntityPicker",
   component: EntityPicker,
   tags: ["autodocs"],
-  render: Example,
 } satisfies Meta<typeof EntityPicker>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Overview: Story = {
+  render: () => (
+    <div style={{ display: "grid", gap: "1.5rem" }}>
+      <InlineExample />
+      <Example />
+    </div>
+  ),
   args: {
     label: "Related items",
     selected: [],

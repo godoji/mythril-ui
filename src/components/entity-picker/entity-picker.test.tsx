@@ -40,6 +40,42 @@ const Example = ({
   );
 };
 describe("EntityPicker", () => {
+  it("filters local options by prefix in the inline chip layout", async () => {
+    const user = userEvent.setup();
+    const catalog: EntityPickerOption[] = [
+      { value: "read", label: "read" },
+      { value: "ready", label: "ready" },
+      { value: "grep", label: "grep" },
+    ];
+    const InlineExample = (): ReactElement => {
+      const [selected, setSelected] = useState<EntityPickerOption[]>([]);
+      return (
+        <EntityPicker
+          label="Allowed tools"
+          selected={selected}
+          options={catalog}
+          onSelectedChange={setSelected}
+          layout="inline"
+          filterMode="prefix"
+        />
+      );
+    };
+    render(<InlineExample />);
+    const input = screen.getByRole("combobox", { name: "Allowed tools" });
+    await user.type(input, "rea");
+    expect(screen.getByRole("option", { name: "read" })).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "ready" })).toBeInTheDocument();
+    expect(screen.queryByRole("option", { name: "grep" })).toBeNull();
+    await user.click(screen.getByRole("option", { name: "read" }));
+    expect(input).toHaveValue("");
+    const remove = screen.getByRole("button", { name: "Remove read" });
+    expect(input.parentElement).toContainElement(remove);
+    expect(screen.queryByRole("option", { name: "read" })).toBeNull();
+    await user.click(remove);
+    expect(screen.queryByRole("button", { name: "Remove read" })).toBeNull();
+    await user.click(input);
+    expect(screen.getByRole("option", { name: "read" })).toBeInTheDocument();
+  });
   it("queries, selects multiple results, and removes a selected value", async () => {
     const user = userEvent.setup();
     const onQueryChange = vi.fn();

@@ -12,6 +12,14 @@ export { TextField } from "./components/text-field/text-field.js";
 export type { TextFieldProps } from "./components/text-field/text-field.js";
 export { Theme } from "./components/theme/theme.js";
 export type { ThemeProps, ThemeTokens } from "./components/theme/theme.js";
+export { Stack } from "./components/stack/stack.js";
+export type { StackProps, StackGap } from "./components/stack/stack.js";
+export { Inline } from "./components/inline/inline.js";
+export type {
+  InlineProps,
+  InlineGap,
+  InlineAlign,
+} from "./components/inline/inline.js";
 export { TextInput } from "./components/text-input/text-input.js";
 export type { TextInputProps } from "./components/text-input/text-input.js";
 export type { FieldVariant } from "./components/field/field.js";
@@ -118,6 +126,8 @@ export { EntityPicker } from "./components/entity-picker/entity-picker.js";
 export type {
   EntityPickerProps,
   EntityPickerOption,
+  EntityPickerLayout,
+  EntityPickerFilterMode,
 } from "./components/entity-picker/entity-picker.js";
 export { FileDropzone } from "./components/file-dropzone/file-dropzone.js";
 export type { FileDropzoneProps } from "./components/file-dropzone/file-dropzone.js";

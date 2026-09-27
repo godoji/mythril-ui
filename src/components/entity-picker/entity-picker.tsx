@@ -23,6 +23,8 @@ import { OverlayTheme } from "../theme/theme.js";
 import styles from "./entity-picker.module.css";
 
 export type EntityPickerOption = ComboboxOption;
+export type EntityPickerLayout = "separate" | "inline";
+export type EntityPickerFilterMode = "provided" | "prefix";
 export interface EntityPickerProps {
   label: string;
   labelHidden?: boolean;
@@ -40,6 +42,10 @@ export interface EntityPickerProps {
   name?: string;
   boundary?: FloatingBoundary | null;
   placement?: Placement;
+  /** Put selected chips inside the input surface. */
+  layout?: EntityPickerLayout;
+  /** Filter local options by label prefix, or use caller-filtered options. */
+  filterMode?: EntityPickerFilterMode;
   className?: string;
 }
 
@@ -61,6 +67,8 @@ export const EntityPicker = ({
   name,
   boundary,
   placement = "bottom-start",
+  layout = "separate",
+  filterMode = "provided",
   className,
 }: EntityPickerProps): ReactElement => {
   const ids = useFieldIds(undefined, undefined, undefined, undefined);
@@ -74,7 +82,17 @@ export const EntityPicker = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
   const selectedIds = new Set(selected.map((item) => item.value));
-  const availableOptions = loading ? [] : options;
+  const availableOptions = loading
+    ? []
+    : filterMode === "prefix"
+      ? options.filter(
+          (option) =>
+            !selectedIds.has(option.value) &&
+            option.label
+              .toLocaleLowerCase()
+              .startsWith(query.trim().toLocaleLowerCase()),
+        )
+      : options;
   const unavailable = (option: EntityPickerOption): boolean =>
     option.disabled === true ||
     (maxSelected !== undefined &&
@@ -85,7 +103,7 @@ export const EntityPicker = ({
   );
   const active = enabled.includes(activeIndex) ? activeIndex : enabled[0];
   const listId = `${ids.id}-results`;
-  const { refs, floatingStyles, context } = useFloating<HTMLInputElement>({
+  const { refs, floatingStyles, context } = useFloating<HTMLElement>({
     open,
     onOpenChange: setOpen,
     placement,
@@ -107,7 +125,7 @@ export const EntityPicker = ({
     listboxRef.current
       ?.querySelector<HTMLElement>(`[data-active="true"]`)
       ?.scrollIntoView({ block: "nearest" });
-  }, [open, active, options]);
+  }, [open, active, options, query, selected]);
   const toggle = (option: EntityPickerOption): void => {
     if (unavailable(option)) return;
     onSelectedChange(
@@ -115,6 +133,10 @@ export const EntityPicker = ({
         ? selected.filter((item) => item.value !== option.value)
         : [...selected, option],
     );
+    if (filterMode === "prefix") {
+      setQuery("");
+      setActiveIndex(0);
+    }
     inputRef.current?.focus();
   };
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
@@ -145,16 +167,43 @@ export const EntityPicker = ({
       onSelectedChange(selected.slice(0, -1));
     }
   };
+  const selectedChips = selected.map((item) => (
+    <Chip
+      key={item.value}
+      disabled={disabled}
+      onRemove={() => {
+        onSelectedChange(
+          selected.filter((entry) => entry.value !== item.value),
+        );
+      }}
+      removeLabel={`Remove ${item.label}`}
+    >
+      {item.label}
+    </Chip>
+  ));
   return (
     <div className={cx(styles.root, className)}>
       <Field label={label} labelHidden={labelHidden ?? false} ids={ids}>
-        <div className={styles.inputWrap}>
-          <Search size={14} aria-hidden="true" className={styles.searchIcon} />
+        <div
+          className={styles.inputWrap}
+          data-layout={layout}
+          ref={(element) => {
+            if (layout === "inline") refs.setReference(element);
+          }}
+        >
+          {layout === "inline" && selectedChips}
+          {layout === "separate" && (
+            <Search
+              size={14}
+              aria-hidden="true"
+              className={styles.searchIcon}
+            />
+          )}
           <input
             {...getReferenceProps()}
             ref={(element) => {
               inputRef.current = element;
-              refs.setReference(element);
+              if (layout === "separate") refs.setReference(element);
             }}
             id={ids.id}
             type="text"
@@ -190,22 +239,9 @@ export const EntityPicker = ({
           />
         </div>
       </Field>
-      {selected.length > 0 && (
+      {layout === "separate" && selected.length > 0 && (
         <div className={styles.selected} aria-label={`${label} selected`}>
-          {selected.map((item) => (
-            <Chip
-              key={item.value}
-              disabled={disabled}
-              onRemove={() => {
-                onSelectedChange(
-                  selected.filter((entry) => entry.value !== item.value),
-                );
-              }}
-              removeLabel={`Remove ${item.label}`}
-            >
-              {item.label}
-            </Chip>
-          ))}
+          {selectedChips}
         </div>
       )}
       {name &&
@@ -235,10 +271,10 @@ export const EntityPicker = ({
                 <div className={styles.message} role="status">
                   Loading…
                 </div>
-              ) : options.length === 0 ? (
+              ) : availableOptions.length === 0 ? (
                 <div className={styles.message}>{emptyMessage}</div>
               ) : (
-                options.map((option, index) => (
+                availableOptions.map((option, index) => (
                   <div
                     key={option.value}
                     id={`${listId}-option-${String(index)}`}

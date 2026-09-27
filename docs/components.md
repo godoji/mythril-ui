@@ -76,6 +76,16 @@ are imported from those projects.
 
 ## Structure and feedback
 
+`Stack` arranges children vertically with `gap` values from the Mythril spacing
+scale (`"1"`, `"2"`, `"3"`, `"4"`, `"6"`, or `"8"`; default `"3"`). Put it around
+related controls or sections instead of adding margins to each child. It accepts
+native `div` props, including `className` and `ref`, and adds no padding.
+
+`Inline` arranges children horizontally with the same spacing scale. Its `align`
+prop controls cross-axis alignment (`"center"` by default). Use `align="end"` to
+align a button with the control beneath a visible field label. Items wrap by
+default; pass `wrap={false}` for a single row.
+
 `Disclosure` accepts `title`, `children`, and optional controlled `open` /
 `onOpenChange`, or `defaultOpen`. Its trigger handles Enter/Space and exposes
 expanded state. Titles should be non-interactive content. Collapsed children stay
@@ -128,6 +138,11 @@ retaining removal. Keyboard focus stays in the input: arrows move through enable
 results, Enter toggles, Backspace removes the last selected item when the query
 is empty, and Escape closes the list. A `name` submits selected IDs as repeated
 hidden form values. Its result overlay accepts `boundary` and uses Floating UI.
+Use `layout="inline"` to place removable chips and the input in one bordered
+surface. With `filterMode="prefix"`, the picker filters local options by the
+beginning of their label, omits selected options from results, and clears the
+query after selection. The default `filterMode="provided"` keeps caller-filtered
+results for asynchronous searches.
 
 `FileDropzone` reports native selected or dropped `File` objects through
 `onFiles`. The app validates file types, uploads bytes, handles errors, and owns
