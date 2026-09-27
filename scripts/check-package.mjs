@@ -51,11 +51,10 @@ try {
       },
     }),
   );
-  // npm ci/install has already cached these exact versions. No network required.
+  // A fresh CI runner may not have registry metadata for peer dependencies cached.
   run(process.execPath, [
     npmCli,
     "install",
-    "--offline",
     "--ignore-scripts",
     "--no-audit",
     "--no-fund",
