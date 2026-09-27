@@ -32,8 +32,8 @@ CI runs the same complete check. Visual and screen-reader QA remain manual.
 
 ## Use from another project
 
-The package is `@aelbrecht/mythril-ui`, configured for private GitHub Packages in
-`aelbrecht/mythril-ui`. See [publishing and installation](docs/publishing.md) for
+The package is `@godoji/mythril-ui`, configured for GitHub Packages from
+`godoji/mythril-ui`. See [publishing and installation](docs/publishing.md) for
 registry authentication and releases. Local packaging also works without publishing:
 
 ```sh
@@ -41,13 +41,13 @@ registry authentication and releases. Local packaging also works without publish
 npm pack
 
 # In a consuming React 19 project:
-npm install /absolute/path/to/mythril/aelbrecht-mythril-ui-0.1.0.tgz
+npm install /absolute/path/to/mythril/godoji-mythril-ui-0.1.0.tgz
 ```
 
 ```tsx
-import { Button, IconButton, TextField } from "@aelbrecht/mythril-ui";
+import { Button, IconButton, TextField } from "@godoji/mythril-ui";
 import { MoreHorizontal, Plus } from "lucide-react";
-import "@aelbrecht/mythril-ui/styles.css";
+import "@godoji/mythril-ui/styles.css";
 
 export const ProjectForm = () => (
   <form>
@@ -68,9 +68,8 @@ Output is ESM-only and targets modern browsers. React 18 and CommonJS consumers
 are not currently supported. The JS bundle carries a `use client` boundary for
 React Server Component hosts, and can still be server-rendered by React DOM.
 
-Anvil is not modified by this setup. Install a published version or local tarball
-there when ready to adopt components. Rebuild and reinstall a new tarball after
-local library changes.
+The sibling Anvil checkout currently uses a local file dependency. Other consumers
+can install the published package or a local tarball.
 
 ## Components
 
@@ -110,8 +109,8 @@ log fetching/pagination, and task-specific components remain in the consuming ap
 
 ## Styling
 
-CSS Modules scope component rules. `Theme` uses the Lovable Anvil activity-history
-palette: a near-black canvas, dark panels, hairline borders, compact controls, and
+CSS Modules scope component rules. `Theme` uses a near-black canvas, dark panels,
+hairline borders, compact controls, and
 restrained green statuses. It prefers Geist if the host provides it, then system
 fonts; no font is fetched by the package. Use typed `tokens` to customize `--mythril-*`
 variables; token overrides also follow tooltips and other portaled overlays.

@@ -9,4 +9,4 @@
 - Build reusable presentation primitives, not Anvil workflow logic. Keep overlays on Floating UI and allow collision boundaries. Test portals with and without `Theme`: unthemed controls use light fallbacks, while `Theme` defaults to dark.
 - Keep React 19 and React DOM as peers. Export public components and types from `src/index.ts`, include their styles in the package, and avoid importing consumer application code.
 - Follow the existing React/TypeScript structure, use arrow functions and strong types, and document public APIs. Add focused behavior tests for changed interactions; run the narrowest relevant checks while developing and `npm run check` before committing a releasable change.
-- Validate new APIs in a real consumer using a local tarball before publishing. Keep GitHub Packages private, and never commit registry credentials or tokens.
+- Validate new APIs in a real consumer using a local tarball before publishing. Publish GitHub Packages publicly under `@godoji` after verifying package visibility, and never commit registry credentials or tokens.

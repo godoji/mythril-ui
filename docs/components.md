@@ -1,13 +1,13 @@
 # Component contracts
 
-Import components from `@aelbrecht/mythril-ui` and load
-`@aelbrecht/mythril-ui/styles.css` once. Storybook documents props and supported
+Import components from `@godoji/mythril-ui` and load
+`@godoji/mythril-ui/styles.css` once. Storybook documents props and supported
 states. All components are React 19 components; refs are ordinary props.
 
 ## Theme and density
 
 ```tsx
-import { Button, Theme } from "@aelbrecht/mythril-ui";
+import { Button, Theme } from "@godoji/mythril-ui";
 
 <Theme mode="dark" tokens={{ "--mythril-radius": "2px" }}>
   <Button size="small">Save</Button>
@@ -22,18 +22,13 @@ and checkbox indicators stay 16px, centered inside a full-height field row.
 Underline tabs have 24px between labels and 12px between the tab bar and panel;
 segmented tabs include their border and padding inside the 32px height. The
 `Examples/Control alignment` story shows these dimensions together.
-`Theme` defaults to the Lovable-inspired dark palette: near-black canvas, slightly
+`Theme` defaults to a dark palette: near-black canvas, slightly
 lighter panels, hairline dividers, compact controls, and restrained status color.
 It uses Geist when the host loads it, then a system sans-serif fallback; it does
 not fetch fonts. Pass `mode="light"` for the matching light palette. Pass custom
 variables through `tokens` so portaled overlays receive them too. Overrides made
 only on arbitrary DOM ancestors cannot cross a portal. Without `Theme`, components
 use their light fallback palette. No global reset is included.
-
-The visual direction follows the dark Activity history design in the private
-Lovable Anvil prototype, with control behavior informed by `storybookctl` and
-unified-viewer. No application-specific layout contexts, stylesheets, or assets
-are imported from those projects.
 
 ## Actions and fields
 

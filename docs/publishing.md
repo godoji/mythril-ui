@@ -1,49 +1,51 @@
-# Private GitHub Packages
+# Public GitHub Package
 
-- Package: `@aelbrecht/mythril-ui`
-- Repository: `https://github.com/aelbrecht/mythril-ui`
+- Package: `@godoji/mythril-ui`
+- Repository: `https://github.com/godoji/mythril-ui`
 - Registry: `https://npm.pkg.github.com`
 
-The local configuration does not create the repository or publish a package.
-Create the repository as private and push this project there before releasing.
+Create the repository under `godoji` as public and push this project there. The
+local configuration does not create the repository or publish a package. The
+package is MIT licensed; see [LICENSE](../LICENSE).
 
 ## Publish a release
 
-1. Update `version` in `package.json` and the lockfile together, for example with
+1. Confirm that the `godoji` organization allows public package creation and
+   that the release workflow has permission to publish packages.
+2. Update `version` in `package.json` and the lockfile together, for example with
    `npm version patch --no-git-tag-version`. The initial version is `0.1.0`.
-2. Run `npm run check`, commit, and push the changes.
-3. Create and publish a GitHub release tagged `v0.1.0` (or `v` followed by the new
+3. Run `npm run check`, commit, and push the changes.
+4. Create and publish a GitHub release tagged `v0.1.0` (or `v` followed by the new
    package version), pointing at the commit with that version.
+5. After the first publish, open the package settings in the `godoji` organization
+   and set **Change visibility → Public**. Verify the package page shows Public.
 
-The release workflow rejects a mismatched tag, runs the full check, and publishes
-using GitHub's built-in `GITHUB_TOKEN` with `packages:write`. No personal publishing
-token is needed in repository secrets. Prereleases are skipped. Each release needs
-a new package version; publishing an existing version will fail.
+The release workflow checks the repository, package name, version, and registry;
+runs the full check; and publishes with GitHub's built-in `GITHUB_TOKEN` and
+`packages: write`. No personal publishing token is needed in repository secrets.
+Prereleases are skipped. Each release needs a new package version.
 
-`publishConfig` targets GitHub Packages with `access: restricted`. The manifest's
-`private: true` flag is removed because it prevents publishing to any registry;
-it is not a registry visibility setting. New GitHub npm packages default to private.
-Keep the package's visibility private in GitHub Package settings. This workflow
-does not change the visibility of an existing package. The package remains
-`UNLICENSED`.
-
-See GitHub's [npm registry guide](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry)
-and [publishing workflow documentation](https://docs.github.com/en/actions/tutorials/publish-packages/publish-nodejs-packages).
+GitHub npm packages start private, even when the repository is public. The
+manifest's `publishConfig.access: "public"` expresses the intended access but does
+not replace the visibility change in GitHub package settings. Making a GitHub
+package public cannot be undone. See [GitHub package visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility)
+and the [npm registry guide](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry).
 
 ## Install locally
 
-In Anvil or another consumer, add this scope mapping to the project's `.npmrc`:
+In a consuming project, map the scope to GitHub Packages in `.npmrc`:
 
 ```ini
-@aelbrecht:registry=https://npm.pkg.github.com
+@godoji:registry=https://npm.pkg.github.com
 ```
 
-Authenticate with your GitHub username and a **personal access token (classic)**
-with `read:packages`, belonging to an account that can access this package:
+GitHub's npm registry requires authentication even for public packages. Log in
+with your GitHub username and a **personal access token (classic)** with
+`read:packages`:
 
 ```sh
-npm login --scope=@aelbrecht --auth-type=legacy --registry=https://npm.pkg.github.com
-npm install @aelbrecht/mythril-ui
+npm login --scope=@godoji --auth-type=legacy --registry=https://npm.pkg.github.com
+npm install @godoji/mythril-ui
 ```
 
 Enter the token at the password prompt. Keep credentials in your per-user npm
@@ -51,14 +53,14 @@ configuration; never commit a token to the project. The checked-in `.npmrc`
 contains only the scope mapping. Other dependencies continue using npmjs.org.
 
 ```tsx
-import { Button, TextField } from "@aelbrecht/mythril-ui";
-import "@aelbrecht/mythril-ui/styles.css";
+import { Button, TextField } from "@godoji/mythril-ui";
+import "@godoji/mythril-ui/styles.css";
 ```
 
 ## Install in another repository's GitHub Actions
 
-In this package's GitHub settings, use **Manage Actions access** to grant the
-consumer repository read access. Then configure its install job as follows:
+Grant that repository read access in the package's **Manage Actions access**
+settings. Then configure its install job:
 
 ```yaml
 permissions:
@@ -71,12 +73,11 @@ steps:
     with:
       node-version: "24"
       registry-url: https://npm.pkg.github.com
-      scope: "@aelbrecht"
+      scope: "@godoji"
   - run: npm ci
     env:
       NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-Commit the consumer's dependency and lockfile after installing locally. Repository
-access must be granted to the package; `packages:read` alone does not grant access
-to a different repository's private package. See [GitHub package access controls](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility).
+Commit the consumer's dependency and lockfile after installing locally. For
+package access details, see [GitHub package access controls](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility).

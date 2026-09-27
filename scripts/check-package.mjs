@@ -43,7 +43,7 @@ try {
       private: true,
       type: "module",
       dependencies: {
-        "@aelbrecht/mythril-ui": `file:${join(fixture, packed.filename)}`,
+        "@godoji/mythril-ui": `file:${join(fixture, packed.filename)}`,
         react: manifest.devDependencies.react,
         "react-dom": manifest.devDependencies["react-dom"],
         "@types/react": manifest.devDependencies["@types/react"],
@@ -81,10 +81,10 @@ try {
     `
 import { createRef } from "react";
 import { createRoot } from "react-dom/client";
-import { Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@aelbrecht/mythril-ui";
+import { Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
 import { Play, Plus } from "lucide-react";
-import type { ButtonProps, FieldVariant, FloatingBoundary, TextFieldProps } from "@aelbrecht/mythril-ui";
-import "@aelbrecht/mythril-ui/styles.css";
+import type { ButtonProps, FieldVariant, FloatingBoundary, TextFieldProps } from "@godoji/mythril-ui";
+import "@godoji/mythril-ui/styles.css";
 const button: ButtonProps = { type: "submit", ref: createRef<HTMLButtonElement>() };
 const field: TextFieldProps = { label: "Project", name: "project", ref: createRef<HTMLInputElement>() };
 const fieldVariant: FieldVariant = "filled";
@@ -144,7 +144,7 @@ createRoot(document.getElementById("root")!).render(<Theme mode="dark" tokens={{
     `
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Button, TextField } from "@aelbrecht/mythril-ui";
+import { Button, TextField } from "@godoji/mythril-ui";
 console.log(renderToStaticMarkup(createElement(Button, null, "Save")));
 console.log(renderToStaticMarkup(createElement(TextField, { label: "Project" })));
 `,
