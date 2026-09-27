@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { ChangeEvent, KeyboardEvent, ReactElement, Ref } from "react";
 import {
   FloatingPortal,
@@ -89,6 +89,7 @@ export const Combobox = ({
   const active = enabled.includes(activeIndex) ? activeIndex : enabled[0];
   const listId = `${ids.id}-listbox`;
   const inputRef = useRef<HTMLInputElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
   const { refs, floatingStyles, context } = useFloating<HTMLInputElement>({
     open,
     onOpenChange: setOpen,
@@ -105,10 +106,17 @@ export const Combobox = ({
   );
   const setFloating = useCallback(
     (node: HTMLDivElement | null): void => {
+      listboxRef.current = node;
       refs.setFloating(node);
     },
     [refs],
   );
+  useLayoutEffect(() => {
+    if (!open || active === undefined) return;
+    listboxRef.current
+      ?.querySelector<HTMLElement>(`[data-active="true"]`)
+      ?.scrollIntoView({ block: "nearest" });
+  }, [open, active, options, query]);
   const mergedRef = useMergeRefs([inputRef, setReference, ref]);
   const dismiss = useDismiss(context, { escapeKey: false });
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
@@ -225,7 +233,9 @@ export const Combobox = ({
           />
         </div>
       </Field>
-      {name && <input type="hidden" name={name} value={value} />}
+      {name && (
+        <input type="hidden" name={name} value={value} disabled={disabled} />
+      )}
       {open && !disabled && (
         <FloatingPortal>
           <OverlayTheme>

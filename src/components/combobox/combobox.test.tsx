@@ -66,4 +66,50 @@ describe("Combobox", () => {
     expect(input).toHaveAttribute("aria-expanded", "false");
     expect(onValueChange).toHaveBeenCalledWith("b");
   });
+
+  it("omits a disabled selection from native form submission", () => {
+    const options = [{ value: "a", label: "Alpha" }];
+    const { rerender } = render(
+      <form aria-label="Task chooser">
+        <Combobox
+          label="Task"
+          name="task"
+          options={options}
+          defaultValue="a"
+          disabled
+        />
+      </form>,
+    );
+    const form = screen.getByRole("form", { name: "Task chooser" });
+    expect(new FormData(form as HTMLFormElement).getAll("task")).toEqual([]);
+    rerender(
+      <form aria-label="Task chooser">
+        <Combobox label="Task" name="task" options={options} defaultValue="a" />
+      </form>,
+    );
+    expect(new FormData(form as HTMLFormElement).getAll("task")).toEqual(["a"]);
+  });
+
+  it("keeps the keyboard-active option in view", async () => {
+    const user = userEvent.setup();
+    const scrollIntoView = vi.spyOn(HTMLElement.prototype, "scrollIntoView");
+    try {
+      render(
+        <Combobox
+          label="Task"
+          options={Array.from({ length: 30 }, (_, index) => ({
+            value: String(index),
+            label: `Task ${String(index)}`,
+          }))}
+        />,
+      );
+      await user.click(screen.getByRole("combobox", { name: "Task" }));
+      await user.keyboard("{End}");
+      const active = screen.getByRole("option", { name: "Task 29" });
+      expect(active).toHaveAttribute("data-active", "true");
+      expect(scrollIntoView.mock.contexts.at(-1)).toBe(active);
+    } finally {
+      scrollIntoView.mockRestore();
+    }
+  });
 });

@@ -47,6 +47,8 @@ export const ResizablePanels = ({
   style,
 }: ResizablePanelsProps): ReactElement => {
   const rootRef = useRef<HTMLDivElement>(null);
+  const primaryRef = useRef<HTMLDivElement>(null);
+  const separatorRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{
     pointerId: number;
     coordinate: number;
@@ -91,6 +93,12 @@ export const ResizablePanels = ({
   const clamp = (next: number): number =>
     Math.max(expandedMinimum, Math.min(maximum, next));
   const displayedSize = collapsible && size === 0 ? 0 : clamp(size);
+  const collapsed = collapsible && displayedSize === 0;
+  useLayoutEffect(() => {
+    if (collapsed && primaryRef.current?.contains(document.activeElement)) {
+      separatorRef.current?.focus();
+    }
+  }, [collapsed]);
   const resize = (next: number): void => {
     const bounded = collapsible && next <= 0 ? 0 : clamp(next);
     if (bounded > 0) lastExpandedRef.current = bounded;
@@ -164,10 +172,18 @@ export const ResizablePanels = ({
         } as CSSProperties
       }
     >
-      <div id={paneId} className={styles.pane} data-pane="primary">
+      <div
+        ref={primaryRef}
+        id={paneId}
+        className={styles.pane}
+        data-pane="primary"
+        inert={collapsed}
+        aria-hidden={collapsed}
+      >
         {primary}
       </div>
       <div
+        ref={separatorRef}
         role="separator"
         tabIndex={0}
         aria-label={primaryLabel}

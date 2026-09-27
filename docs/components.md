@@ -110,7 +110,9 @@ mounted while hidden. Controlled selection uses `value` / `onValueChange`.
 `size` / `defaultSize`, `minSize`, `maxSize`, and `minSecondarySize` are pixel
 values. Drag the separator or use arrows in 10px steps (50px with Shift); Home and
 End move to the limits. With `collapsible`, Enter collapses and restores the
-primary pane. The consumer persists `onSizeChange` if desired. Its separator
+primary pane. Collapsed content stays mounted but is inert and hidden from
+assistive technology; focus moves to the separator if it was inside that pane.
+The consumer persists `onSizeChange` if desired. Its separator
 follows the [window splitter pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/).
 
 `TreeView` takes hierarchical nodes with unique IDs and string labels. Expansion
@@ -125,6 +127,8 @@ loading, drag-and-drop, or multi-selection is included. See the
 in the text input while `aria-activedescendant` tracks the active option. It
 supports controlled or default `value`, disabled options, a native hidden `name`
 value for forms, and the same `variant` and field descriptions as TextInput.
+Disabled comboboxes omit that value from form submission. Keyboard navigation
+keeps the active option in view in long lists.
 Its listbox uses Floating UI and accepts a `boundary`. Applications own remote
 search, validation, and command execution. See the
 [combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/).
