@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Publish to npm
 
 on:
   release:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
-      packages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -25,9 +25,8 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: npm
-          registry-url: https://npm.pkg.github.com
-          scope: "@godoji"
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
       - name: Verify release version
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
@@ -38,12 +37,10 @@ jobs:
           const pkg = JSON.parse(readFileSync("package.json", "utf8"));
           assert.equal(pkg.name, "@godoji/mythril-ui");
           assert.equal(process.env.RELEASE_TAG, `v${pkg.version}`, "Release tag must match the package version.");
-          assert.equal(pkg.publishConfig.registry, "https://npm.pkg.github.com");
+          assert.equal(pkg.publishConfig.registry, "https://registry.npmjs.org");
           assert.equal(pkg.publishConfig.access, "public");
           NODE
       - run: npm ci
       - run: npm run check
       - name: Publish package
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

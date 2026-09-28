@@ -37,16 +37,16 @@ CI runs the same complete check. Visual and screen-reader QA remain manual.
 
 ## Use from another project
 
-The package is `@godoji/mythril-ui`, configured for GitHub Packages from
-`godoji/mythril-ui`. See [publishing and installation](docs/publishing.md) for
-registry authentication and releases. Local packaging also works without publishing:
+The package is `@godoji/mythril-ui` on npm. See
+[publishing and installation](docs/publishing.md) for releases. Local packaging
+also works without publishing:
 
 ```sh
 # In Mythril (prepack builds the package):
 npm pack
 
 # In a consuming React 19 project:
-npm install /absolute/path/to/mythril/godoji-mythril-ui-0.2.0.tgz
+npm install /absolute/path/to/mythril/godoji-mythril-ui-0.3.0.tgz
 ```
 
 ```tsx
@@ -141,7 +141,7 @@ management yourself. Hand-written files should stay below roughly 500 lines.
 See [linting decisions](docs/linting.md) for how the supplied ESLint reference was
 adapted. Version public API changes deliberately and run `npm run check` before
 sharing a package. Publishing a stable GitHub release triggers validation and then
-publishing to GitHub Packages; the release tag must match the package version.
+publishing to npm; the release tag must match the package version.
 
 ## Administration components
 
