@@ -15,3 +15,6 @@
 .locale[data-status="error"] svg {
   color: var(--mythril-danger, #b91c1c);
 }
+:global([aria-selected="true"]) .locale svg {
+  color: currentColor;
+}
