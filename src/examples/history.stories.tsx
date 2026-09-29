@@ -122,15 +122,14 @@ const HistoryExample = (): ReactElement => {
                         >
                           <Disclosure
                             defaultOpen
-                            title={
-                              <span className={styles.entryHeading}>
-                                <span>{entry}</span>
-                                {showTime && (
-                                  <time dateTime="2026-09-25T09:01:00Z">
-                                    09:01
-                                  </time>
-                                )}
-                              </span>
+                            variant="text"
+                            title={entry}
+                            trailing={
+                              showTime && (
+                                <time dateTime="2026-09-25T09:01:00Z">
+                                  09:01
+                                </time>
+                              )
                             }
                           >
                             <p>

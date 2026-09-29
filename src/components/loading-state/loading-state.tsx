@@ -20,7 +20,7 @@ export const LoadingState = ({
     data-inline={inline}
     className={cx(styles.root, className)}
   >
-    <LoaderCircle size={16} aria-hidden="true" className={styles.icon} />
     <span>{label}</span>
+    <LoaderCircle size={16} aria-hidden="true" className={styles.icon} />
   </div>
 );

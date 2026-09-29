@@ -23,6 +23,11 @@ export const MarkdownContent = ({
       remarkPlugins={[remarkGfm]}
       skipHtml
       components={{
+        table: ({ children }) => (
+          <div className={styles.tableViewport}>
+            <table>{children}</table>
+          </div>
+        ),
         a: ({ node, href, children, ...anchorProps }) => {
           const inPage = node?.tagName === "a" && href?.startsWith("#");
           return (

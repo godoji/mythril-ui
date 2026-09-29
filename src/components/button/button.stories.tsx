@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   Check,
@@ -50,13 +49,19 @@ export const Overview: Story = {
       <h2>Editor buttons</h2>
       <p>Quiet color for semantic actions. Icon-only buttons show a tooltip.</p>
       <div className={styles.matrix}>
-        <strong>Variant</strong>
-        <strong>Standard</strong>
-        <strong>Compact</strong>
-        <strong>With icon</strong>
-        <strong>Icon only</strong>
+        <div
+          className={[styles.matrixRow, styles.matrixHeader]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          <strong>Variant</strong>
+          <strong>Standard</strong>
+          <strong>Compact</strong>
+          <strong>With icon</strong>
+          <strong>Icon only</strong>
+        </div>
         {variants.map(({ variant, label, icon }) => (
-          <Fragment key={variant}>
+          <div className={styles.matrixRow} key={variant}>
             <span className={styles.variant}>{variant}</span>
             <Button variant={variant}>{label}</Button>
             <Button variant={variant} size="small">
@@ -70,7 +75,7 @@ export const Overview: Story = {
               icon={icon}
               label={`${label} action`}
             />
-          </Fragment>
+          </div>
         ))}
       </div>
       <div className={styles.disabled}>

@@ -1,14 +1,17 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Home, Package, Settings } from "lucide-react";
+import { Home, MoreHorizontal, Package, Settings } from "lucide-react";
 import {
   Navigation,
   NavigationAction,
   NavigationLink,
   NavigationGroup,
+  NavigationRow,
 } from "./navigation.js";
 import { Inline } from "../inline/inline.js";
+import { IconButton } from "../icon-button/icon-button.js";
+import { StatusBadge } from "../status-badge/status-badge.js";
 const Example = (): ReactElement => {
   const [page, setPage] = useState("Overview");
   return (
@@ -56,6 +59,14 @@ const Example = (): ReactElement => {
                 setPage("Settings");
               }}
             />
+            {variant === "sidebar" && (
+              <NavigationLink
+                href="#long"
+                label="A long navigation entry that stays on one line"
+                labelOverflow="marquee"
+                size="small"
+              />
+            )}
           </Navigation>
         ))}
       </Inline>
@@ -73,6 +84,14 @@ type Story = StoryObj<typeof meta>;
 export const Overview: Story = {
   args: { label: "Navigation" },
   render: () => <Example />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Hover or focus the long sidebar label to read its clipped text.",
+      },
+    },
+  },
 };
 export const OpenFlyout: Story = {
   args: { label: "Navigation" },
@@ -82,6 +101,39 @@ export const OpenFlyout: Story = {
         <NavigationLink href="#products" label="Products" current />
         <NavigationLink href="#categories" label="Categories" />
       </NavigationGroup>
+    </Navigation>
+  ),
+};
+export const TrailingContent: Story = {
+  args: { label: "Navigation" },
+  render: () => (
+    <Navigation label="Review stories">
+      <NavigationLink
+        href="#changed"
+        label="Changed story with a percentage"
+        icon={Package}
+        badge={
+          <StatusBadge size="small" tone="warning">
+            2.4%
+          </StatusBadge>
+        }
+      />
+      <NavigationRow
+        trailing={
+          <IconButton
+            icon={MoreHorizontal}
+            label="More story actions"
+            variant="ghost"
+            size="small"
+          />
+        }
+      >
+        <NavigationLink
+          href="#actions"
+          label="Story with actions"
+          icon={Settings}
+        />
+      </NavigationRow>
     </Navigation>
   ),
 };

@@ -12,6 +12,7 @@ describe("CodeBlock", () => {
     const code = "first line\nsecond line\n<script>not HTML</script>";
     render(<CodeBlock code={code} previewLimit={10} />);
     const output = screen.getByRole("region", { name: "Output text" });
+    expect(output).toHaveAttribute("data-wrap", "true");
     expect(output.textContent).toBe(code.slice(0, 10));
     await user.click(screen.getByRole("button", { name: "Copy full output" }));
     expect(writeText).toHaveBeenCalledWith(code);

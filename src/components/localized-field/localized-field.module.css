@@ -1,0 +1,17 @@
+.locale {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mythril-space-1, 0.25rem);
+}
+.locale svg {
+  flex: 0 0 auto;
+}
+.locale[data-status="complete"] svg {
+  color: var(--mythril-success, #166534);
+}
+.locale[data-status="empty"] svg {
+  color: var(--mythril-muted, #606060);
+}
+.locale[data-status="error"] svg {
+  color: var(--mythril-danger, #b91c1c);
+}

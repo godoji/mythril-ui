@@ -2,6 +2,8 @@
 
 - Think **editor first** when a design or API choice is unclear. Prefer compact controls, dense but readable layouts, quiet surfaces, visible focus, and restrained semantic color. Avoid oversized buttons, decorative spacing, and portfolio-style presentation.
 - Keep single-line controls aligned at the shared 32px height; the compact size is 28px. Multiline inputs grow with content. Keep labels and errors readable without enlarging the controls.
+- Prefer icons to the right of labels in new UI, unless a leading icon communicates hierarchy or status.
+- Wrap layout content instead of requiring horizontal scrolling; reserve horizontal scrolling for large tables.
 - Use native form elements and preserve refs, disabled and submit behavior, keyboard access, and accessible names. Icon-only buttons need tooltips.
 - Treat hidden inputs as part of the public form contract: disabled controls must not submit values. Keep the active option visible in scrollable keyboard-operated lists, and return focus after dismissing overlays.
 - Use `lucide-react` for UI icons. Do not add authored SVGs, SVG data URLs, or downloaded icon assets.

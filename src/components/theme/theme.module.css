@@ -74,14 +74,16 @@
   --mythril-muted: oklch(0.46 0.01 260);
   --mythril-border: oklch(0.2 0 0 / 18%);
   --mythril-divider: oklch(0.2 0 0 / 10%);
-  --mythril-accent: oklch(0.23 0.005 260);
+  --mythril-accent: oklch(0.46 0.11 255);
   --mythril-on-accent: oklch(0.985 0 0);
   --mythril-focus: oklch(0.52 0.08 260);
-  --mythril-danger: oklch(0.5 0.18 25);
-  --mythril-danger-strong: oklch(0.5 0.18 25);
-  --mythril-success: oklch(0.42 0.12 163);
-  --mythril-warning: oklch(0.5 0.11 80);
-  --mythril-info: oklch(0.48 0.05 260);
+  --mythril-danger: oklch(0.48 0.17 25);
+  --mythril-danger-strong: oklch(0.48 0.17 25);
+  --mythril-success: oklch(0.43 0.11 163);
+  --mythril-warning: oklch(0.52 0.16 80);
+  --mythril-info: oklch(0.47 0.1 255);
+  --mythril-badge-tint: 14%;
+  --mythril-badge-border-tint: 32%;
   --mythril-panel-shadow: 0 24px 80px -24px oklch(0 0 0 / 16%);
   color-scheme: light;
 }
