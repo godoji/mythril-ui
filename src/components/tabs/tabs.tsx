@@ -6,7 +6,9 @@ import styles from "./tabs.module.css";
 
 export interface TabItem {
   value: string;
-  label: string;
+  label: ReactNode;
+  /** Spoken label when the visible label contains a decorative icon or status. */
+  accessibleLabel?: string;
   content: ReactNode;
   disabled?: boolean;
 }
@@ -87,6 +89,7 @@ export const Tabs = ({
             tabIndex={current === item.value ? 0 : -1}
             disabled={item.disabled}
             className={styles.tab}
+            aria-label={item.accessibleLabel}
             onClick={() => {
               setSelected(item.value);
             }}

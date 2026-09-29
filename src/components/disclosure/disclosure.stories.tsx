@@ -15,3 +15,12 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const Expanded: Story = { args: { defaultOpen: true } };
 export const Disabled: Story = { args: { disabled: true } };
+export const TextWithTime: Story = {
+  args: {
+    variant: "text",
+    title: "Built the package",
+    trailing: <time dateTime="2026-09-25T09:01:00Z">09:01</time>,
+    defaultOpen: true,
+    children: <p>Package build finished successfully.</p>,
+  },
+};

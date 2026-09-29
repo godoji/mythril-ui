@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { ComponentPropsWithRef, ReactElement } from "react";
 import { useMergeRefs } from "@floating-ui/react";
+import { Check, Minus } from "lucide-react";
 import { cx } from "../../lib/classes.js";
 import { Field, useFieldIds } from "../field/field.js";
 import type { FieldOptions } from "../field/field.js";
@@ -38,15 +39,21 @@ export const Checkbox = ({
       {...(description !== undefined && { description })}
       {...(error !== undefined && { error })}
     >
-      <input
-        {...props}
-        ref={mergedRef}
-        id={ids.id}
-        type="checkbox"
-        className={cx(styles.checkbox, className)}
-        aria-describedby={ids.describedBy}
-        aria-invalid={error ? true : invalid}
-      />
+      <span className={styles.checkboxWrap}>
+        <input
+          {...props}
+          ref={mergedRef}
+          id={ids.id}
+          type="checkbox"
+          className={cx(styles.checkbox, className)}
+          aria-describedby={ids.describedBy}
+          aria-invalid={error ? true : invalid}
+        />
+        <span className={styles.checkboxVisual} aria-hidden="true">
+          <Check className={styles.checkboxCheck} size={12} strokeWidth={3} />
+          <Minus className={styles.checkboxMinus} size={12} strokeWidth={3} />
+        </span>
+      </span>
     </Field>
   );
 };

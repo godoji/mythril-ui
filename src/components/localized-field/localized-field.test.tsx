@@ -77,6 +77,8 @@ describe("LocalizedField", () => {
   it("retains edits across languages and submits all locales", async () => {
     const user = userEvent.setup();
     render(<Example />);
+    expect(screen.queryByText("Complete")).not.toBeInTheDocument();
+    expect(screen.queryByText("Empty")).not.toBeInTheDocument();
     await user.click(screen.getByRole("tab", { name: "Dutch · Error" }));
     const input = screen.getByRole("textbox", { name: "Name (Dutch)" });
     expect(input).toHaveAccessibleDescription("Required translation");

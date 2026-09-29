@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent, InvalidEvent, ReactElement } from "react";
+import { Circle, CircleCheck, TriangleAlert } from "lucide-react";
 import { Tabs } from "../tabs/tabs.js";
 import { TextInput } from "../text-input/text-input.js";
 import { Textarea } from "../textarea/textarea.js";
 import { useControllable } from "../../lib/use-controllable.js";
+import styles from "./localized-field.module.css";
 
 export interface FieldLocale {
   code: string;
@@ -81,6 +83,19 @@ export const LocalizedField = ({
           (locale.required && validationError?.value === value
             ? validationError.message
             : undefined);
+        const status = error ? "error" : value.trim() ? "complete" : "empty";
+        const StatusIcon =
+          status === "error"
+            ? TriangleAlert
+            : status === "complete"
+              ? CircleCheck
+              : Circle;
+        const statusLabel =
+          status === "error"
+            ? errorLabel
+            : status === "complete"
+              ? completeLabel
+              : emptyLabel;
         const field = {
           label: `${label} (${locale.label})`,
           value,
@@ -117,7 +132,13 @@ export const LocalizedField = ({
         };
         return {
           value: locale.code,
-          label: `${locale.label} · ${error ? errorLabel : value.trim() ? completeLabel : emptyLabel}`,
+          label: (
+            <span className={styles.locale} data-status={status}>
+              {locale.label}
+              <StatusIcon size={14} aria-hidden="true" />
+            </span>
+          ),
+          accessibleLabel: `${locale.label} · ${statusLabel}`,
           content: multiline ? (
             <Textarea {...field} rows={rows} autoResize />
           ) : (

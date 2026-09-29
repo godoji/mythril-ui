@@ -23,7 +23,7 @@ export const CodeBlock = ({
   language,
   previewLimit = 12000,
   maxHeight = "24rem",
-  wrap = false,
+  wrap = true,
   className,
 }: CodeBlockProps): ReactElement => {
   const [expanded, setExpanded] = useState(false);

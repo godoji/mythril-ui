@@ -38,24 +38,54 @@ interface ItemOptions {
   icon?: LucideIcon;
   current?: boolean;
   badge?: ReactNode;
+  /** Pan a clipped label on hover or focus instead of wrapping it. */
+  labelOverflow?: "wrap" | "marquee";
 }
 export interface NavigationLinkProps
   extends ComponentPropsWithRef<"a">, ItemOptions {
   href: string;
+  /** Compact sidebar rows to match small buttons; rail targets retain their size. */
+  size?: "default" | "small";
   /** Render a router Link, forwarding supplied props, ref and children. */
   renderLink?: (props: ComponentPropsWithRef<"a">) => ReactElement;
 }
+export interface NavigationRowProps {
+  children: ReactNode;
+  trailing: ReactNode;
+}
+/** Keep trailing controls beside a link or action, rather than nesting them inside it. */
+export const NavigationRow = ({
+  children,
+  trailing,
+}: NavigationRowProps): ReactElement => (
+  <div className={styles.row}>
+    {children}
+    <span className={styles.rowTrailing}>{trailing}</span>
+  </div>
+);
 const ItemContent = ({
   label,
   icon: Icon,
   badge,
+  labelOverflow = "wrap",
 }: ItemOptions): ReactElement => {
   const rail = useContext(NavigationContext) === "rail";
   return (
     <>
       {Icon && <Icon size={16} aria-hidden="true" />}
       {!Icon && rail && <span aria-hidden="true">{label.slice(0, 1)}</span>}
-      <span className={styles.label}>{label}</span>
+      <span
+        className={cx(
+          styles.label,
+          labelOverflow === "marquee" && styles.marquee,
+        )}
+      >
+        {labelOverflow === "marquee" ? (
+          <span className={styles.marqueeText}>{label}</span>
+        ) : (
+          label
+        )}
+      </span>
       {badge !== undefined && <span className={styles.badge}>{badge}</span>}
     </>
   );
@@ -64,6 +94,8 @@ export const NavigationLink = ({
   label,
   icon,
   badge,
+  labelOverflow = "wrap",
+  size = "default",
   current = false,
   renderLink,
   className,
@@ -80,11 +112,20 @@ export const NavigationLink = ({
     "aria-label": rail ? label : props["aria-label"],
     "aria-current": current ? "page" : props["aria-current"],
     "data-rail": rail,
+    "data-size": size,
     className: cx(styles.item, className),
     children: (
-      <ItemContent label={label} {...(icon && { icon })} badge={badge} />
+      <ItemContent
+        label={label}
+        {...(icon && { icon })}
+        badge={badge}
+        labelOverflow={labelOverflow}
+      />
     ),
-  } satisfies ComponentPropsWithRef<"a"> & { "data-rail": boolean };
+  } satisfies ComponentPropsWithRef<"a"> & {
+    "data-rail": boolean;
+    "data-size": "default" | "small";
+  };
   const link = renderLink ? (
     renderLink(anchorProps)
   ) : (
@@ -104,6 +145,7 @@ export const NavigationAction = ({
   label,
   icon,
   badge,
+  labelOverflow = "wrap",
   current = false,
   className,
   type = "button",
@@ -124,7 +166,12 @@ export const NavigationAction = ({
       aria-current={current ? "page" : undefined}
       className={cx(styles.item, className)}
     >
-      <ItemContent label={label} {...(icon && { icon })} badge={badge} />
+      <ItemContent
+        label={label}
+        {...(icon && { icon })}
+        badge={badge}
+        labelOverflow={labelOverflow}
+      />
     </button>
   );
   return rail ? (
@@ -147,6 +194,7 @@ export const NavigationGroup = ({
   label,
   icon,
   badge,
+  labelOverflow = "wrap",
   current = false,
   children,
   open: controlled,
@@ -193,7 +241,12 @@ export const NavigationGroup = ({
             }
       }
     >
-      <ItemContent label={label} {...(icon && { icon })} badge={badge} />
+      <ItemContent
+        label={label}
+        {...(icon && { icon })}
+        badge={badge}
+        labelOverflow={labelOverflow}
+      />
       <ChevronDown size={14} aria-hidden="true" className={styles.chevron} />
     </button>
   );

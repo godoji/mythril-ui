@@ -53,3 +53,44 @@ export const Overview: Story = {
   args: { label: "Title", locales, values: {}, onValueChange: () => {} },
   render: () => <Example />,
 };
+const manyLocales = [
+  { code: "en", label: "English" },
+  { code: "nl", label: "Nederlands" },
+  { code: "fr", label: "Français" },
+  { code: "de", label: "Deutsch" },
+  { code: "it", label: "Italiano" },
+  { code: "es", label: "Español" },
+  { code: "pt", label: "Português" },
+  { code: "pl", label: "Polski" },
+  { code: "sv", label: "Svenska" },
+  { code: "da", label: "Dansk" },
+  { code: "no", label: "Norsk" },
+  { code: "fi", label: "Suomi" },
+];
+const ManyLanguagesExample = (): ReactElement => {
+  const [values, setValues] = useState<Record<string, string>>({
+    en: "Summer collection",
+    nl: "Zomercollectie",
+  });
+  return (
+    <div style={{ maxWidth: "28rem" }}>
+      <LocalizedField
+        label="Title"
+        locales={manyLocales}
+        values={values}
+        onValueChange={(locale, value) => {
+          setValues((current) => ({ ...current, [locale]: value }));
+        }}
+      />
+    </div>
+  );
+};
+export const ManyLanguages: Story = {
+  args: {
+    label: "Title",
+    locales: manyLocales,
+    values: {},
+    onValueChange: () => {},
+  },
+  render: () => <ManyLanguagesExample />,
+};

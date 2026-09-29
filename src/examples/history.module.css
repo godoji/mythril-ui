@@ -48,20 +48,7 @@
 .entry p {
   margin: 0;
 }
-.entryHeading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex: 1;
-  min-width: 0;
-}
-.entryHeading > span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.entryHeading time {
+.entry time {
   color: var(--mythril-muted);
   font-family: "Geist Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 0.75rem;

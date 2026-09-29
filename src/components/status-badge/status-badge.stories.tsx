@@ -18,3 +18,6 @@ export const Review: Story = {
   args: { children: "Needs review", tone: "warning" },
 };
 export const Failed: Story = { args: { children: "Failed", tone: "danger" } };
+export const CompactPercentage: Story = {
+  args: { children: "<1%", tone: "warning", size: "small" },
+};

@@ -35,7 +35,6 @@
 .item[aria-current="page"],
 .item[data-current="true"] {
   background: var(--mythril-selected, #ddd);
-  font-weight: 600;
 }
 .item:focus-visible {
   outline: 2px solid var(--mythril-focus, #596ca0);
@@ -45,12 +44,66 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+.item[data-size="small"] {
+  min-height: var(--mythril-control-height-small, 1.75rem);
+  padding-block: 0.125rem;
+}
 .label {
   flex: 1;
+  min-width: 0;
+}
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  container-type: inline-size;
+  mask-image: linear-gradient(
+    to right,
+    #000 calc(100% - 0.875rem),
+    transparent
+  );
+}
+.marqueeText {
+  display: inline-block;
+  width: max-content;
+}
+.item:is(:hover, :focus-visible) .marqueeText {
+  animation: label-pan 2s linear infinite alternate;
+}
+@keyframes label-pan {
+  0%,
+  12% {
+    transform: translateX(0);
+  }
+  88%,
+  100% {
+    transform: translateX(min(0px, calc(100cqw - 100% - 0.875rem)));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .item:is(:hover, :focus-visible) .marqueeText {
+    animation: none;
+  }
 }
 .badge {
+  flex: 0 0 auto;
   color: var(--mythril-muted, #606060);
   font-size: 0.75rem;
+}
+.row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.row > .item,
+.row > a,
+.row > button {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.rowTrailing {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
 }
 .item[data-rail="true"] {
   justify-content: center;

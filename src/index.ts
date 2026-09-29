@@ -158,12 +158,14 @@ export {
   NavigationLink,
   NavigationAction,
   NavigationGroup,
+  NavigationRow,
 } from "./components/navigation/navigation.js";
 export type {
   NavigationProps,
   NavigationLinkProps,
   NavigationActionProps,
   NavigationGroupProps,
+  NavigationRowProps,
 } from "./components/navigation/navigation.js";
 export {
   PageContainer,

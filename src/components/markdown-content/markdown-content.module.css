@@ -1,6 +1,6 @@
 .content {
   min-width: 0;
-  overflow-x: auto;
+  overflow-wrap: anywhere;
 }
 
 .content p,
@@ -55,8 +55,8 @@
 .content pre {
   padding: 0.5rem;
   margin-bottom: 0.5rem;
-  overflow-x: auto;
-  white-space: pre;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   border: 1px solid var(--mythril-divider, #d9d9d9);
   border-radius: var(--mythril-radius, 0.625rem);
   background: var(--mythril-subtle, #f5f5f5);
@@ -71,6 +71,10 @@
 .content table {
   border-collapse: collapse;
   margin-bottom: 0.5rem;
+}
+.tableViewport {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .content img {

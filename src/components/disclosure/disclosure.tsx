@@ -10,6 +10,10 @@ export interface DisclosureProps extends Omit<
   "title"
 > {
   title: ReactNode;
+  /** Secondary text aligned at the end of the trigger. */
+  trailing?: ReactNode;
+  /** Text keeps the trigger flush with its content and uses an underline hover. */
+  variant?: "button" | "text";
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -18,6 +22,8 @@ export interface DisclosureProps extends Omit<
 
 export const Disclosure = ({
   title,
+  trailing,
+  variant = "button",
   open: controlled,
   defaultOpen = false,
   onOpenChange,
@@ -37,6 +43,7 @@ export const Disclosure = ({
       <button
         type="button"
         className={styles.trigger}
+        data-variant={variant}
         aria-expanded={open}
         aria-controls={id}
         disabled={disabled}
@@ -44,8 +51,9 @@ export const Disclosure = ({
           setOpen(!open);
         }}
       >
+        <span className={styles.title}>{title}</span>
         <ChevronRight size={14} aria-hidden="true" className={styles.chevron} />
-        {title}
+        {trailing && <span className={styles.trailing}>{trailing}</span>}
       </button>
       <div id={id} className={styles.content} hidden={!open}>
         {children}
