@@ -85,7 +85,7 @@ Consumers can install the published package or validate a local tarball before u
 | Data       | DataTable, Pagination, DescriptionList, ImagePreview                                                      |
 | Feedback   | StatusBadge, Chip, Notice, Alert, UsageMeter, ToastProvider, LoadingState, EmptyState                     |
 | Overlays   | Dialog, Drawer, Popover, Menu, ContextMenu                                                                |
-| History    | ScrollArea with follow-latest, CodeBlock with copy and bounded preview, MarkdownContent                   |
+| History    | ScrollArea with follow-latest, CodeBlock with copy and bounded preview, CodeText, MarkdownContent         |
 | Appearance | Theme with light/dark palettes and CSS token overrides                                                    |
 
 The original `TextField` export remains an alias for `TextInput`. Text inputs,
@@ -95,6 +95,12 @@ one surface. Fields share accessible labels, descriptions, errors, and native fo
 handles overlay positioning and focus; Lucide React supplies icons. Both are runtime
 dependencies externalized from the library bundle. `MarkdownContent` uses the
 external `react-markdown` and `remark-gfm` runtime dependencies.
+
+`CodeText` renders compact, wrapping code without a surrounding card or toolbar.
+Use `format="diff"` for added, removed, context, and patch-header line colors, or
+`tone="muted" | "danger" | "success" | "accent"` for semantic output. Text is
+escaped; the component does not execute HTML or load a language parser. Native
+`pre` attributes and refs are forwarded. The consumer owns output limits.
 
 Editor surfaces can compose `PageHeader`, `Card`, `FormRow`, `FilterBar`,
 `DataTable`, and `Pagination` without coupling the library to a router or API.

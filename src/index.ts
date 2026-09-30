@@ -60,6 +60,8 @@ export { ScrollArea } from "./components/scroll-area/scroll-area.js";
 export type { ScrollAreaProps } from "./components/scroll-area/scroll-area.js";
 export { CodeBlock } from "./components/code-block/code-block.js";
 export type { CodeBlockProps } from "./components/code-block/code-block.js";
+export { CodeText } from "./components/code-text/code-text.js";
+export type { CodeTextProps } from "./components/code-text/code-text.js";
 export { Tabs } from "./components/tabs/tabs.js";
 export type { TabsProps, TabItem } from "./components/tabs/tabs.js";
 export { Popover } from "./components/popover/popover.js";

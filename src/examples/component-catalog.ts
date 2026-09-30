@@ -49,6 +49,12 @@ export const componentCatalog = [
     href: "?path=/story/components-codeblock--default",
   },
   {
+    name: "CodeText",
+    category: "Display and feedback",
+    components: ["CodeText"],
+    href: "?path=/story/components-codetext--overview",
+  },
+  {
     name: "CollectionEditor",
     category: "Forms",
     components: ["CollectionEditor"],

@@ -1,0 +1,35 @@
+.text {
+  min-width: 0;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+  color: var(--mythril-text, #202020);
+  font:
+    12px/1.55 ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
+}
+.text code {
+  font: inherit;
+}
+.text[data-tone="muted"] {
+  color: var(--mythril-muted, #606060);
+}
+.text[data-tone="danger"],
+.text [data-line="removed"] {
+  color: var(--mythril-danger, #b42318);
+}
+.text[data-tone="success"],
+.text [data-line="added"] {
+  color: var(--mythril-success, #18733c);
+}
+.text[data-tone="accent"],
+.text [data-line="header"] {
+  color: var(--mythril-accent, #2563eb);
+}
+.text:focus-visible {
+  outline: 2px solid var(--mythril-focus, #2563eb);
+  outline-offset: 2px;
+}
