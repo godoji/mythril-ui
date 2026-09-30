@@ -80,7 +80,7 @@ try {
     `
 import { createRef } from "react";
 import { createRoot } from "react-dom/client";
-import { AppShell, Navigation, NavigationLink, NavigationAction, NavigationGroup, PageContainer, Grid, LinkCard, LocalizedField, CollectionEditor, Stat, ChartFrame, MessagesProvider, NumberField, Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, ChoiceButton, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, MarkdownContent, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, Stack, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
+import { AppShell, Navigation, NavigationLink, NavigationAction, NavigationGroup, NavigationRow, PageContainer, Grid, LinkCard, LocalizedField, CollectionEditor, Stat, ChartFrame, MessagesProvider, NumberField, Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, ChoiceButton, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, MarkdownContent, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, Stack, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
 import { Play, Plus } from "lucide-react";
 import type { ButtonProps, FieldVariant, FloatingBoundary, TextFieldProps } from "@godoji/mythril-ui";
 import "@godoji/mythril-ui/styles.css";
@@ -94,7 +94,7 @@ const invalid: ButtonProps = { variant: "unknown" };
 void invalid;
 createRoot(document.getElementById("root")!).render(<Theme mode="dark" tokens={{ "--mythril-radius": "2px" }}>
   <MessagesProvider messages={{ next: "Next page" }}><Pagination label="Pages" page={1} onPageChange={() => {}} /></MessagesProvider>
-  <AppShell header="Workspace" navigation={<Navigation label="Main"><NavigationLink href="/products" label="Products" /><NavigationGroup label="More"><NavigationAction label="Settings" /></NavigationGroup></Navigation>} mobileNavigation={(close) => <Button onClick={close}>Close</Button>}><PageContainer><Grid><LinkCard href="/products" title="Products" /></Grid></PageContainer></AppShell>
+  <AppShell header="Workspace" navigation={<Navigation label="Main"><NavigationRow trailing={<Button>More</Button>}><NavigationLink href="/products" label="Products" size="small" labelOverflow="marquee" /></NavigationRow><NavigationGroup label="More"><NavigationAction label="Settings" /></NavigationGroup></Navigation>} mobileNavigation={(close) => <Button onClick={close}>Close</Button>}><PageContainer><Grid><LinkCard href="/products" title="Products" /></Grid></PageContainer></AppShell>
   <LocalizedField label="Title" locales={[{ code: "en", label: "English" }]} values={{ en: "Title" }} onValueChange={() => {}} />
   <CollectionEditor label="Sections" items={[]} onMove={() => {}} onRemove={() => {}} />
   <NumberField label="Price" value="12.50" onValueChange={() => {}} />
@@ -104,10 +104,10 @@ createRoot(document.getElementById("root")!).render(<Theme mode="dark" tokens={{
   <ChoiceButton label="Continue" highlighted /><MarkdownContent content="**Ready**" />
   <Stack as="form" onSubmit={(event) => event.preventDefault()}><Button type="submit">Submit</Button></Stack>
   <TextInput label="Name" variant="outline" /><Textarea label="Notes" /><TextareaComposer label="Add a note" actions={<Button type="submit">Add note</Button>} /><Select label="Format"><option>Text</option></Select><Checkbox label="Confirm" />
-  <IconButton icon={Play} label="Run" boundary={boundary} /><Tooltip label="Help" boundary={boundary}><Button>Help</Button></Tooltip><StatusBadge tone="success">Complete</StatusBadge><Notice>Ready</Notice><Alert>Check this</Alert>
+  <IconButton icon={Play} label="Run" boundary={boundary} /><Tooltip label="Help" boundary={boundary}><Button>Help</Button></Tooltip><StatusBadge tone="success" size="small">Complete</StatusBadge><Notice>Ready</Notice><Alert>Check this</Alert>
   <Accordion label="Details" items={[{ value: "one", title: "One", content: "Details" }]} />
-  <ScrollArea label="History" followLatest><Disclosure title="Output"><CodeBlock code="full output" /></Disclosure></ScrollArea>
-  <Tabs label="Views" items={[{ value: "history", label: "History", content: "Content" }]} />
+  <ScrollArea label="History" followLatest><Disclosure title="Output" trailing="Details" variant="text"><CodeBlock code="full output" /></Disclosure></ScrollArea>
+  <Tabs label="Views" items={[{ value: "history", label: <span>History</span>, accessibleLabel: "History view", content: "Content" }]} />
   <Popover label="Options" trigger={<Button>Options</Button>} boundary={boundary}>Options</Popover>
   <Menu label="Actions" trigger={<Button>Actions</Button>} boundary={boundary} items={[]} />
   <Dialog open={false} onOpenChange={() => {}} title="Confirm" />
