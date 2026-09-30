@@ -142,8 +142,9 @@ management yourself. Hand-written files should stay below roughly 500 lines.
 
 See [linting decisions](docs/linting.md) for how the supplied ESLint reference was
 adapted. Version public API changes deliberately and run `npm run check` before
-sharing a package. Publishing a stable GitHub release triggers validation and then
-publishing to npm; the release tag must match the package version.
+sharing a package. Publish manually to npm using the
+[publishing instructions](docs/publishing.md). GitHub releases record the version
+and release notes; they do not publish the package.
 
 ## Administration components
 
