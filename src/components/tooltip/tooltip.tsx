@@ -52,6 +52,7 @@ export const Tooltip = ({
     whileElementsMounted: floatingAutoUpdate(boundary),
   });
   const hover = useHover(context, {
+    mouseOnly: true,
     move: false,
     delay: { open: 300, close: 100 },
     handleClose: safePolygon(),

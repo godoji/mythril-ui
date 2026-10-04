@@ -227,6 +227,12 @@ export const componentCatalog = [
     href: "?path=/story/components-popover--default",
   },
   {
+    name: "Progress",
+    category: "Display and feedback",
+    components: ["Progress"],
+    href: "?path=/story/components-progress--overview",
+  },
+  {
     name: "ResizablePanels",
     category: "Layout",
     components: ["ResizablePanels"],

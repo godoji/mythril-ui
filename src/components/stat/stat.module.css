@@ -1,11 +1,18 @@
 .stat,
 .chart {
-  border: 1px solid var(--mythril-border, #ccc);
+  border: 1px solid var(--mythril-divider, #d9d9d9);
   background: var(--mythril-surface, #fff);
   border-radius: var(--mythril-radius-panel, 0.75rem);
   padding: var(--mythril-space-4, 1rem);
   min-width: 0;
   margin: 0;
+}
+.stat {
+  align-self: stretch;
+  overflow-wrap: anywhere;
+}
+.stat .detail {
+  min-block-size: 1lh;
 }
 .stat dl {
   margin: 0;

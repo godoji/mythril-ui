@@ -11,27 +11,47 @@ import { Popover } from "../popover/popover.js";
 import styles from "./navigation.module.css";
 
 const NavigationContext = createContext<"rail" | "sidebar">("sidebar");
+const NavigationWidthContext = createContext<"fixed" | "full">("fixed");
+/** Internal composition scope for navigation hosted in a full-width drawer. */
+export const NavigationWidthProvider = ({
+  width,
+  children,
+}: {
+  width: "fixed" | "full";
+  children: ReactNode;
+}): ReactElement => (
+  <NavigationWidthContext.Provider value={width}>
+    {children}
+  </NavigationWidthContext.Provider>
+);
 const NavigationDismissContext = createContext<() => void>(() => {});
 export interface NavigationProps extends ComponentPropsWithRef<"nav"> {
   label: string;
   variant?: "rail" | "sidebar";
+  /** Fixed sidebar/rail width or the available container width. Defaults to the hosting shell's width policy. */
+  width?: "fixed" | "full";
 }
 /** Navigation landmark; links retain ordinary Tab and browser navigation behavior. */
 export const Navigation = ({
   label,
   variant = "sidebar",
+  width,
   className,
   ...props
-}: NavigationProps): ReactElement => (
-  <NavigationContext.Provider value={variant}>
-    <nav
-      {...props}
-      aria-label={label}
-      data-variant={variant}
-      className={cx(styles.navigation, className)}
-    />
-  </NavigationContext.Provider>
-);
+}: NavigationProps): ReactElement => {
+  const inheritedWidth = useContext(NavigationWidthContext);
+  return (
+    <NavigationContext.Provider value={variant}>
+      <nav
+        {...props}
+        aria-label={label}
+        data-variant={variant}
+        data-width={width ?? inheritedWidth}
+        className={cx(styles.navigation, className)}
+      />
+    </NavigationContext.Provider>
+  );
+};
 
 interface ItemOptions {
   label: string;

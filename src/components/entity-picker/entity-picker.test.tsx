@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { EntityPicker } from "./entity-picker.js";
@@ -40,6 +40,101 @@ const Example = ({
   );
 };
 describe("EntityPicker", () => {
+  it.each([
+    { isComposing: true, keyCode: 13 },
+    { isComposing: false, keyCode: 229 },
+  ])(
+    "does not navigate, select, remove, or dismiss during composition",
+    async (composition) => {
+      const user = userEvent.setup();
+      const onSelectedChange = vi.fn();
+      render(
+        <EntityPicker
+          label="Related"
+          selected={[{ value: "a", label: "Alpha" }]}
+          options={options}
+          onSelectedChange={onSelectedChange}
+        />,
+      );
+      const input = screen.getByRole("combobox");
+      await user.click(input);
+      for (const key of ["ArrowDown", "Enter", "Backspace", "Escape"]) {
+        expect(fireEvent.keyDown(input, { key, ...composition })).toBe(true);
+      }
+      expect(onSelectedChange).not.toHaveBeenCalled();
+      expect(input).toHaveAttribute("aria-expanded", "true");
+    },
+  );
+
+  it("returns keyboard focus to the input after removing a selected chip", async () => {
+    const user = userEvent.setup();
+    render(<Example onQueryChange={vi.fn()} />);
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+    await user.keyboard("{Enter}");
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Remove Alpha" })).toHaveFocus();
+    await user.keyboard(" ");
+    expect(
+      screen.queryByRole("button", { name: "Remove Alpha" }),
+    ).not.toBeInTheDocument();
+    expect(input).toHaveFocus();
+  });
+
+  it("closes results and rejects mutations when a parent fieldset becomes disabled", async () => {
+    const user = userEvent.setup();
+    const onSelectedChange = vi.fn();
+    const field = (disabled: boolean): ReactElement => (
+      <fieldset disabled={disabled}>
+        <EntityPicker
+          label="Related"
+          selected={[]}
+          options={options}
+          onSelectedChange={onSelectedChange}
+        />
+      </fieldset>
+    );
+    const { rerender } = render(field(false));
+    const input = screen.getByRole("combobox");
+    await user.click(input);
+    const option = screen.getByRole("option", { name: "Alpha" });
+    rerender(field(true));
+    fireEvent.click(option);
+    expect(onSelectedChange).not.toHaveBeenCalled();
+    await waitFor(() =>
+      expect(screen.queryByRole("listbox")).not.toBeInTheDocument(),
+    );
+    expect(input).toHaveAttribute("aria-expanded", "false");
+    rerender(field(false));
+    await user.click(input);
+    await user.click(screen.getByRole("option", { name: "Alpha" }));
+    expect(onSelectedChange).toHaveBeenCalledWith([
+      { value: "a", label: "Alpha" },
+    ]);
+  });
+
+  it("preserves native first-legend exceptions to disabled fieldsets", async () => {
+    const user = userEvent.setup();
+    const onSelectedChange = vi.fn();
+    render(
+      <fieldset disabled>
+        <legend>
+          <EntityPicker
+            label="Enabled legend"
+            selected={[]}
+            options={options}
+            onSelectedChange={onSelectedChange}
+          />
+        </legend>
+      </fieldset>,
+    );
+    await user.click(screen.getByRole("combobox"));
+    await user.click(screen.getByRole("option", { name: "Alpha" }));
+    expect(onSelectedChange).toHaveBeenCalledWith([
+      { value: "a", label: "Alpha" },
+    ]);
+  });
+
   it("filters local options by prefix in the inline chip layout", async () => {
     const user = userEvent.setup();
     const catalog: EntityPickerOption[] = [

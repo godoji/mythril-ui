@@ -10,6 +10,8 @@ import {
 import type { Placement } from "@floating-ui/react";
 import { Check, Search } from "lucide-react";
 import { useControllable } from "../../lib/use-controllable.js";
+import { useFormReset } from "../../lib/use-form-reset.js";
+import { useNativeDisabled } from "../../lib/use-native-disabled.js";
 import { cx } from "../../lib/classes.js";
 import {
   floatingAutoUpdate,
@@ -82,7 +84,7 @@ export const EntityPicker = ({
 }: EntityPickerProps): ReactElement => {
   const messages = useComponentMessages();
   const ids = useFieldIds(id, description, error, describedBy);
-  const [query, setQuery] = useControllable(
+  const [query, setQuery, resetQuery] = useControllable(
     controlledQuery,
     defaultQuery,
     onQueryChange,
@@ -91,6 +93,14 @@ export const EntityPicker = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
+  const fieldDisabled = useNativeDisabled(inputRef, disabled);
+  const expanded = open && !fieldDisabled;
+  if (fieldDisabled && open) setOpen(false);
+  useFormReset(inputRef, () => {
+    resetQuery();
+    setOpen(false);
+    setActiveIndex(0);
+  });
   const selectedIds = new Set(selected.map((item) => item.value));
   const availableOptions = loading
     ? []
@@ -114,7 +124,7 @@ export const EntityPicker = ({
   const active = enabled.includes(activeIndex) ? activeIndex : enabled[0];
   const listId = `${ids.id}-results`;
   const { refs, floatingStyles, context } = useFloating<HTMLElement>({
-    open,
+    open: expanded,
     onOpenChange: setOpen,
     placement,
     strategy: "fixed",
@@ -144,7 +154,12 @@ export const EntityPicker = ({
       ?.scrollIntoView({ block: "nearest" });
   }, [open, active, options, query, selected]);
   const toggle = (option: EntityPickerOption): void => {
-    if (unavailable(option)) return;
+    if (
+      disabled ||
+      inputRef.current?.matches(":disabled") ||
+      unavailable(option)
+    )
+      return;
     onSelectedChange(
       selectedIds.has(option.value)
         ? selected.filter((item) => item.value !== option.value)
@@ -157,8 +172,17 @@ export const EntityPicker = ({
     inputRef.current?.focus();
   };
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
+    if (
+      event.currentTarget.matches(":disabled") ||
+      event.nativeEvent.isComposing ||
+      // Legacy IME confirmation events can report 229 after composition ends.
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
+      event.nativeEvent.keyCode === 229
+    )
+      return;
     if (event.key === "Escape" && open) {
       event.preventDefault();
+      event.stopPropagation();
       setOpen(false);
       return;
     }
@@ -187,11 +211,13 @@ export const EntityPicker = ({
   const selectedChips = selected.map((item) => (
     <Chip
       key={item.value}
-      disabled={disabled}
+      disabled={fieldDisabled}
       onRemove={() => {
+        if (disabled || inputRef.current?.matches(":disabled")) return;
         onSelectedChange(
           selected.filter((entry) => entry.value !== item.value),
         );
+        inputRef.current?.focus();
       }}
       removeLabel={messages.remove(item.label)}
     >
@@ -231,10 +257,10 @@ export const EntityPicker = ({
             aria-autocomplete="list"
             aria-describedby={ids.describedBy}
             aria-invalid={Boolean(error)}
-            aria-expanded={open}
-            aria-controls={open ? listId : undefined}
+            aria-expanded={expanded}
+            aria-controls={expanded ? listId : undefined}
             aria-activedescendant={
-              open && active !== undefined
+              expanded && active !== undefined
                 ? `${listId}-option-${String(active)}`
                 : undefined
             }
@@ -243,11 +269,12 @@ export const EntityPicker = ({
             value={query}
             placeholder={placeholder ?? messages.search}
             disabled={disabled}
-            onFocus={() => {
-              setOpen(true);
+            onFocus={(event) => {
+              if (!event.currentTarget.matches(":disabled")) setOpen(true);
             }}
-            onClick={() => {
-              if (!open) setOpen(true);
+            onClick={(event) => {
+              if (!event.currentTarget.matches(":disabled") && !open)
+                setOpen(true);
             }}
             onBlur={() => {
               setOpen(false);
@@ -273,10 +300,10 @@ export const EntityPicker = ({
             type="hidden"
             name={name}
             value={item.value}
-            disabled={disabled}
+            disabled={fieldDisabled}
           />
         ))}
-      {open && !disabled && (
+      {expanded && (
         <FloatingPortal>
           <OverlayTheme>
             <div

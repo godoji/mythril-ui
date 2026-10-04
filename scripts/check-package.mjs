@@ -80,7 +80,7 @@ try {
     `
 import { createRef } from "react";
 import { createRoot } from "react-dom/client";
-import { AppShell, Navigation, NavigationLink, NavigationAction, NavigationGroup, NavigationRow, PageContainer, Grid, LinkCard, LocalizedField, CollectionEditor, Stat, ChartFrame, MessagesProvider, NumberField, Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, ChoiceButton, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, MarkdownContent, Menu, Notice, PageHeader, Pagination, Popover, ResizablePanels, ScrollArea, Select, Stack, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
+import { AppShell, Navigation, NavigationLink, NavigationAction, NavigationGroup, NavigationRow, PageContainer, Grid, LinkCard, LocalizedField, CollectionEditor, Stat, ChartFrame, MessagesProvider, NumberField, Accordion, Alert, Button, ButtonLink, buttonLinkProps, Card, Checkbox, Chip, ChoiceButton, CodeBlock, Combobox, ContextMenu, DataTable, DataTableCell, DataTableHeadCell, DataTableStateRow, DescriptionList, Dialog, Disclosure, Drawer, EmptyState, EntityPicker, FileDropzone, FilterBar, FormActions, FormRow, IconButton, ImagePreview, Listbox, LoadingState, MarkdownContent, Menu, Notice, PageHeader, Pagination, Popover, Progress, ResizablePanels, ScrollArea, Select, Stack, StatusBadge, Tabs, Textarea, TextareaComposer, TextField, TextInput, Theme, ToastProvider, ToggleButton, Toolbar, Tooltip, TreeView, UsageMeter } from "@godoji/mythril-ui";
 import { Play, Plus } from "lucide-react";
 import type { ButtonProps, FieldVariant, FloatingBoundary, TextFieldProps } from "@godoji/mythril-ui";
 import "@godoji/mythril-ui/styles.css";
@@ -94,7 +94,7 @@ const invalid: ButtonProps = { variant: "unknown" };
 void invalid;
 createRoot(document.getElementById("root")!).render(<Theme mode="dark" tokens={{ "--mythril-radius": "2px" }}>
   <MessagesProvider messages={{ next: "Next page" }}><Pagination label="Pages" page={1} onPageChange={() => {}} /></MessagesProvider>
-  <AppShell header="Workspace" navigation={<Navigation label="Main"><NavigationRow trailing={<Button>More</Button>}><NavigationLink href="/products" label="Products" size="small" labelOverflow="marquee" /></NavigationRow><NavigationGroup label="More"><NavigationAction label="Settings" /></NavigationGroup></Navigation>} mobileNavigation={(close) => <Button onClick={close}>Close</Button>}><PageContainer><Grid><LinkCard href="/products" title="Products" /></Grid></PageContainer></AppShell>
+  <AppShell height="viewport" header="Workspace" navigation={<Navigation label="Main" width="full"><NavigationRow trailing={<Button>More</Button>}><NavigationLink href="/products" label="Products" size="small" labelOverflow="marquee" /></NavigationRow><NavigationGroup label="More"><NavigationAction label="Settings" /></NavigationGroup></Navigation>} mobileNavigation={(close) => <Button onClick={close}>Close</Button>}><PageContainer><Grid><LinkCard href="/products" title="Products" orientation="horizontal" media={<img src="/sample.png" alt="Product" />} /></Grid></PageContainer></AppShell>
   <LocalizedField label="Title" locales={[{ code: "en", label: "English" }]} values={{ en: "Title" }} onValueChange={() => {}} />
   <CollectionEditor label="Sections" items={[]} onMove={() => {}} onRemove={() => {}} />
   <NumberField label="Price" value="12.50" onValueChange={() => {}} />
@@ -111,11 +111,11 @@ createRoot(document.getElementById("root")!).render(<Theme mode="dark" tokens={{
   <Popover label="Options" trigger={<Button>Options</Button>} boundary={boundary}>Options</Popover>
   <Menu label="Actions" trigger={<Button>Actions</Button>} boundary={boundary} items={[]} />
   <Dialog open={false} onOpenChange={() => {}} title="Confirm" />
-  <UsageMeter label="Usage" value={null} max={100} />
+  <UsageMeter label="Usage" value={null} max={100} /><Progress label="Import" value={0} /><Progress label="Processing" />
   <ResizablePanels primaryLabel="Tasks" primary="Tasks" secondary="History" />
   <TreeView label="Files" nodes={[{ id: "one", label: "One" }]} />
   <Combobox label="Task" options={[{ value: "one", label: "One" }]} />
-  <Listbox label="Views" options={[{ value: "history", label: "History" }]} />
+  <Listbox label="Views" disabled name="view" defaultValue="history" options={[{ value: "history", label: "History" }]} />
   <Toolbar label="Actions" items={[{ id: "play", label: "Play", icon: Play, onPress: () => {} }]} />
   <ToggleButton>Preview</ToggleButton>
   <ContextMenu label="File actions" items={[]}><button type="button">File</button></ContextMenu>

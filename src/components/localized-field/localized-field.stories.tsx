@@ -26,10 +26,12 @@ const Example = (): ReactElement => {
       <LocalizedField
         label="Description"
         locales={locales}
-        values={{ en: "A selection for long summer evenings." }}
+        values={{
+          en: "A selection for long summer evenings.",
+          nl: "Een selectie voor lange zomeravonden.\n\nGemaakt door kleine producenten.\nMet zorg geselecteerd.\n\nVoor elke gelegenheid.\nOok beschikbaar als geschenk.",
+        }}
         onValueChange={() => {}}
         multiline
-        disabled
       />
       <LocalizedField
         label="Required title"

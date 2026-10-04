@@ -2,11 +2,17 @@ import { useRef, useState } from "react";
 import type { ReactElement } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "../button/button.js";
+import { Combobox } from "../combobox/combobox.js";
+import { EntityPicker } from "../entity-picker/entity-picker.js";
+import type { EntityPickerOption } from "../entity-picker/entity-picker.js";
+import { Stack } from "../stack/stack.js";
+import { TextInput } from "../text-input/text-input.js";
 import { Dialog } from "./dialog.js";
 const Example = (): ReactElement => {
   const [open, setOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const [wideOpen, setWideOpen] = useState(false);
+  const [selected, setSelected] = useState<EntityPickerOption[]>([]);
   const cancel = useRef<HTMLButtonElement>(null);
   return (
     <>
@@ -70,7 +76,25 @@ const Example = (): ReactElement => {
           </Button>
         }
       >
-        <p>Large dialog width for an editor form.</p>
+        <Stack>
+          <TextInput label="Title" defaultValue="Homepage" />
+          <Combobox
+            label="Destination"
+            options={[
+              { value: "products", label: "Products" },
+              { value: "collections", label: "Collections" },
+            ]}
+          />
+          <EntityPicker
+            label="Labels"
+            selected={selected}
+            onSelectedChange={setSelected}
+            options={[
+              { value: "featured", label: "Featured" },
+              { value: "seasonal", label: "Seasonal" },
+            ]}
+          />
+        </Stack>
       </Dialog>
     </>
   );

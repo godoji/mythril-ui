@@ -143,6 +143,8 @@ export { Drawer } from "./components/drawer/drawer.js";
 export type { DrawerProps } from "./components/drawer/drawer.js";
 export { LoadingState } from "./components/loading-state/loading-state.js";
 export type { LoadingStateProps } from "./components/loading-state/loading-state.js";
+export { Progress } from "./components/progress/progress.js";
+export type { ProgressProps } from "./components/progress/progress.js";
 export { EmptyState } from "./components/empty-state/empty-state.js";
 export type { EmptyStateProps } from "./components/empty-state/empty-state.js";
 export { DescriptionList } from "./components/description-list/description-list.js";

@@ -12,6 +12,7 @@ import {
 import { Inline } from "../inline/inline.js";
 import { IconButton } from "../icon-button/icon-button.js";
 import { StatusBadge } from "../status-badge/status-badge.js";
+import { Stack } from "../stack/stack.js";
 const Example = (): ReactElement => {
   const [page, setPage] = useState("Overview");
   return (
@@ -69,6 +70,18 @@ const Example = (): ReactElement => {
             )}
           </Navigation>
         ))}
+        <Stack style={{ flex: "1 1 18rem" }}>
+          <strong>Full width</strong>
+          <Navigation label="Full-width navigation" width="full">
+            <NavigationLink
+              href="#overview"
+              label="Overview"
+              icon={Home}
+              current
+            />
+            <NavigationLink href="#products" label="Products" icon={Package} />
+          </Navigation>
+        </Stack>
       </Inline>
       <p role="status">Selected: {page}</p>
     </>

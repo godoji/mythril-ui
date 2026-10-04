@@ -55,11 +55,18 @@ export const Grid = ({
   />
 );
 
-export interface LinkCardProps extends ComponentPropsWithRef<"a"> {
+export interface LinkCardProps extends Omit<
+  ComponentPropsWithRef<"a">,
+  "media"
+> {
   href: string;
   title: string;
   description?: string;
   icon?: ReactNode;
+  /** Non-interactive image or media; children remain part of the linked content. */
+  media?: ReactNode;
+  /** Place media above the content or beside it, wrapping when space is limited. */
+  orientation?: "vertical" | "horizontal";
   /** Router adapter: forward all supplied anchor props and children. */
   renderLink?: (props: ComponentPropsWithRef<"a">) => ReactElement;
 }
@@ -68,24 +75,34 @@ export const LinkCard = ({
   title,
   description,
   icon,
+  media,
+  orientation = "vertical",
   renderLink,
   children,
   className,
   ...props
 }: LinkCardProps): ReactElement => {
+  const content = (
+    <>
+      {icon && <span aria-hidden="true">{icon}</span>}
+      <strong>{title}</strong>
+      {description && <span className={styles.description}>{description}</span>}
+      {children}
+    </>
+  );
   const anchorProps = {
     ...props,
+    "data-orientation": media == null ? "vertical" : orientation,
     className: cx(styles.linkCard, className),
-    children: (
-      <>
-        {icon && <span aria-hidden="true">{icon}</span>}
-        <strong>{title}</strong>
-        {description && (
-          <span className={styles.description}>{description}</span>
-        )}
-        {children}
-      </>
-    ),
+    children:
+      media == null ? (
+        content
+      ) : (
+        <>
+          <div className={styles.media}>{media}</div>
+          <div className={styles.linkContent}>{content}</div>
+        </>
+      ),
   };
   return renderLink ? (
     renderLink(anchorProps)

@@ -30,6 +30,20 @@ variables through `tokens` so portaled overlays receive them too. Overrides made
 only on arbitrary DOM ancestors cannot cross a portal. Without `Theme`, components
 use their light fallback palette. No global reset is included.
 
+Corners use the same tokens in every theme and in unthemed controls:
+
+| Token                    | Default | Use                                               |
+| ------------------------ | ------- | ------------------------------------------------- |
+| `--mythril-radius-xs`    | 4px     | Checkbox indicators and chip removal controls     |
+| `--mythril-radius-sm`    | 6px     | Compact rows, chips, badges, and tooltip surfaces |
+| `--mythril-radius`       | 10px    | Controls, listboxes, and anchored overlays        |
+| `--mythril-radius-panel` | 12px    | Cards, notices, code blocks, and dialogs          |
+| `--mythril-radius-pill`  | 999px   | Progress tracks and scrollbars                    |
+
+Selection and hover keep the control's corner shape. Circular icon buttons and
+status dots retain their circular geometry. The Theme overview compares controls,
+selected rows, panels, and overlays in both palettes.
+
 ## Actions and fields
 
 - `Button`: `primary`, `secondary`, `ghost`, `success`, `warning`, or `danger`;
@@ -65,7 +79,8 @@ use their light fallback palette. No global reset is included.
 - `TextInput` also supports native number, date, time, and datetime-local types.
   Textareas cannot be manually resized by default; pass `resizable` to allow
   vertical resizing. `Textarea autoResize` grows with content and disables manual
-  resizing; `maxRows` caps its height. Use
+  resizing; `maxRows` caps its height. It also resizes when its container width
+  changes or a hidden tab/disclosure becomes visible. Use
   `labelHidden` on TextInput, Textarea, Select, Combobox, or EntityPicker when a surrounding
   `FormRow` shows the same label. The native label stays accessible.
 - `ButtonLink` is a styled native anchor with the Button variants, sizes, and
@@ -133,9 +148,18 @@ Its listbox uses Floating UI and accepts a `boundary`. Applications own remote
 search, validation, and command execution. See the
 [combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/).
 
+Uncontrolled Combobox and Listbox selections return to `defaultValue` on a native
+form reset. Cancelled resets and controlled values stay unchanged, and resetting
+does not invoke selection-change callbacks. Combobox and EntityPicker leave
+composing keystrokes to the input method; Escape closes their dropdown before an
+enclosing dialog or drawer. A disabled fieldset also disables portaled picker
+results, respecting the native first-legend exception.
+
 `Listbox` renders the same option shape as a permanently visible single-select
 list. It has roving focus, arrow/Home/End navigation, typeahead, disabled options,
-and controlled or default `value`. Focus and selection stay separate until Enter,
+and controlled or default `value`. `disabled` or an enclosing disabled fieldset
+disables all options and omits its named value from submission. Focus and selection
+stay separate until Enter,
 Space, or a click selects an option.
 
 `EntityPicker` is a controlled multi-select for async or local search. Pass
@@ -155,7 +179,7 @@ results for asynchronous searches.
 `FileDropzone` reports native selected or dropped `File` objects through
 `onFiles`. The app validates file types, uploads bytes, handles errors, and owns
 persistence. `accept` filters the native file picker but cannot validate a drop
-by itself. `ImagePreview` presents a URL with optional caption and removal; it
+by itself. Disabled fieldsets prevent both file selection and drops. `ImagePreview` presents a URL with optional caption and removal; it
 does not create object URLs or upload images.
 
 `Toolbar` groups icon actions from `items` with one Tab stop; arrows and Home/End

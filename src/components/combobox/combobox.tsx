@@ -10,6 +10,8 @@ import {
 import type { Placement } from "@floating-ui/react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useControllable } from "../../lib/use-controllable.js";
+import { useFormReset } from "../../lib/use-form-reset.js";
+import { useNativeDisabled } from "../../lib/use-native-disabled.js";
 import { cx } from "../../lib/classes.js";
 import {
   floatingAutoUpdate,
@@ -88,12 +90,12 @@ export const Combobox = ({
 }: ComboboxProps): ReactElement => {
   const messages = useComponentMessages();
   const ids = useFieldIds(id, description, error, describedBy);
-  const [value, setValue] = useControllable(
+  const [value, setValue, resetValue] = useControllable(
     controlledValue,
     defaultValue,
     onValueChange,
   );
-  const [query, setQuery] = useControllable(
+  const [query, setQuery, resetQuery] = useControllable(
     controlledQuery,
     defaultQuery,
     onQueryChange,
@@ -120,8 +122,17 @@ export const Combobox = ({
   const listId = `${ids.id}-listbox`;
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
+  const unavailable = useNativeDisabled(inputRef, disabled);
+  const expanded = open && !unavailable;
+  if (unavailable && open) setOpen(false);
+  useFormReset(inputRef, () => {
+    resetValue();
+    resetQuery();
+    setOpen(false);
+    setActiveIndex(0);
+  });
   const { refs, floatingStyles, context } = useFloating<HTMLInputElement>({
-    open,
+    open: expanded,
     onOpenChange: setOpen,
     placement,
     strategy: "fixed",
@@ -152,6 +163,8 @@ export const Combobox = ({
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
   const referenceProps = getReferenceProps();
   const choose = (option: ComboboxOption): void => {
+    if (disabled || inputRef.current?.matches(":disabled") || option.disabled)
+      return;
     setValue(option.value);
     onOptionSelect?.(option);
     setQuery("");
@@ -159,8 +172,17 @@ export const Combobox = ({
     inputRef.current?.focus();
   };
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
+    if (
+      event.currentTarget.matches(":disabled") ||
+      event.nativeEvent.isComposing ||
+      // Legacy IME confirmation events can report 229 after composition ends.
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
+      event.nativeEvent.keyCode === 229
+    )
+      return;
     if (event.key === "Escape" && open) {
       event.preventDefault();
+      event.stopPropagation();
       setOpen(false);
       setQuery("");
       return;
@@ -213,15 +235,15 @@ export const Combobox = ({
         <div className={styles.inputWrap}>
           <input
             {...referenceProps}
-            onFocus={() => {
-              if (!disabled) {
+            onFocus={(event) => {
+              if (!event.currentTarget.matches(":disabled")) {
                 setQuery("");
                 setActiveIndex(0);
                 setOpen(true);
               }
             }}
-            onClick={() => {
-              if (!disabled && !open) {
+            onClick={(event) => {
+              if (!event.currentTarget.matches(":disabled") && !open) {
                 setQuery("");
                 setActiveIndex(0);
                 setOpen(true);
@@ -242,10 +264,10 @@ export const Combobox = ({
             type="text"
             autoComplete="off"
             aria-autocomplete="list"
-            aria-expanded={open}
-            aria-controls={open ? listId : undefined}
+            aria-expanded={expanded}
+            aria-controls={expanded ? listId : undefined}
             aria-activedescendant={
-              open && active !== undefined
+              expanded && active !== undefined
                 ? `${listId}-option-${String(active)}`
                 : undefined
             }
@@ -265,9 +287,9 @@ export const Combobox = ({
         </div>
       </Field>
       {name && (
-        <input type="hidden" name={name} value={value} disabled={disabled} />
+        <input type="hidden" name={name} value={value} disabled={unavailable} />
       )}
-      {open && !disabled && (
+      {expanded && (
         <FloatingPortal>
           <OverlayTheme>
             <div

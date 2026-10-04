@@ -3,6 +3,7 @@ import type { DragEvent, ReactElement } from "react";
 import { Upload } from "lucide-react";
 import { Button } from "../button/button.js";
 import { cx } from "../../lib/classes.js";
+import { useNativeDisabled } from "../../lib/use-native-disabled.js";
 import { useComponentMessages } from "../messages/messages.js";
 import styles from "./file-dropzone.module.css";
 
@@ -31,9 +32,10 @@ export const FileDropzone = ({
   const messages = useComponentMessages();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
-  const unavailable = disabled || busy;
+  const nativeDisabled = disabled || busy;
+  const unavailable = useNativeDisabled(inputRef, nativeDisabled);
   const acceptFiles = (files: FileList | null): void => {
-    if (!files || unavailable) return;
+    if (!files || unavailable || inputRef.current?.matches(":disabled")) return;
     const selected = Array.from(files);
     if (selected.length) onFiles(multiple ? selected : selected.slice(0, 1));
   };
@@ -45,7 +47,7 @@ export const FileDropzone = ({
   return (
     <div
       className={cx(styles.dropzone, className)}
-      data-dragging={dragging}
+      data-dragging={dragging && !unavailable}
       data-disabled={unavailable}
       onDragEnter={(event) => {
         event.preventDefault();
@@ -78,7 +80,7 @@ export const FileDropzone = ({
         type="file"
         accept={accept}
         multiple={multiple}
-        disabled={unavailable}
+        disabled={nativeDisabled}
         tabIndex={-1}
         aria-label={label}
         className={styles.input}

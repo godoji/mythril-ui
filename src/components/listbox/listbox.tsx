@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import type { KeyboardEvent, ReactElement } from "react";
 import { Check } from "lucide-react";
 import { useControllable } from "../../lib/use-controllable.js";
+import { useFormReset } from "../../lib/use-form-reset.js";
+import { useNativeDisabled } from "../../lib/use-native-disabled.js";
 import { cx } from "../../lib/classes.js";
 import type { ComboboxOption } from "../combobox/combobox.js";
 import styles from "./listbox.module.css";
@@ -13,6 +15,7 @@ export interface ListboxProps {
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   name?: string;
+  disabled?: boolean;
   className?: string;
 }
 
@@ -24,15 +27,20 @@ export const Listbox = ({
   defaultValue = "",
   onValueChange,
   name,
+  disabled = false,
   className,
 }: ListboxProps): ReactElement => {
-  const [value, setValue] = useControllable(
+  const [value, setValue, resetValue] = useControllable(
     controlledValue,
     defaultValue,
     onValueChange,
   );
   const [focusedValue, setFocusedValue] = useState(defaultValue);
-  const enabled = options.filter((option) => !option.disabled);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const fieldDisabled = useNativeDisabled(inputRef, disabled);
+  const enabled = fieldDisabled
+    ? []
+    : options.filter((option) => !option.disabled);
   const activeValue = enabled.some((option) => option.value === focusedValue)
     ? focusedValue
     : (enabled.find((option) => option.value === value)?.value ??
@@ -40,11 +48,17 @@ export const Listbox = ({
       "");
   const refs = useRef(new Map<string, HTMLDivElement>());
   const searchRef = useRef({ text: "", at: 0 });
+  useFormReset(inputRef, () => {
+    resetValue();
+    setFocusedValue(defaultValue);
+    searchRef.current = { text: "", at: 0 };
+  });
   const focusOption = (next: string): void => {
     setFocusedValue(next);
     refs.current.get(next)?.focus();
   };
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+    if (disabled || inputRef.current?.matches(":disabled")) return;
     const index = enabled.findIndex((option) => option.value === activeValue);
     if (index < 0) return;
     let next: ComboboxOption | undefined;
@@ -82,6 +96,7 @@ export const Listbox = ({
       <div
         role="listbox"
         aria-label={label}
+        aria-disabled={fieldDisabled || undefined}
         className={cx(styles.listbox, className)}
       >
         {options.map((option) => (
@@ -92,16 +107,26 @@ export const Listbox = ({
               else refs.current.delete(option.value);
             }}
             role="option"
-            tabIndex={!option.disabled && option.value === activeValue ? 0 : -1}
+            tabIndex={
+              !fieldDisabled && !option.disabled && option.value === activeValue
+                ? 0
+                : -1
+            }
             aria-selected={option.value === value}
-            aria-disabled={option.disabled || undefined}
+            aria-disabled={fieldDisabled || option.disabled || undefined}
             className={styles.option}
             onFocus={() => {
-              if (!option.disabled) setFocusedValue(option.value);
+              if (!fieldDisabled && !option.disabled)
+                setFocusedValue(option.value);
             }}
             onKeyDown={onKeyDown}
             onClick={() => {
-              if (option.disabled) return;
+              if (
+                disabled ||
+                inputRef.current?.matches(":disabled") ||
+                option.disabled
+              )
+                return;
               focusOption(option.value);
               setValue(option.value);
             }}
@@ -114,7 +139,13 @@ export const Listbox = ({
           </div>
         ))}
       </div>
-      {name && <input type="hidden" name={name} value={value} />}
+      <input
+        ref={inputRef}
+        type="hidden"
+        name={name}
+        value={value}
+        disabled={disabled}
+      />
     </>
   );
 };

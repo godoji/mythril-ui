@@ -31,12 +31,21 @@ The `scroll="document"` default follows document scrolling. Use `scroll="panes"`
 inside a container with a defined height for independent pane scrolling. At narrow
 viewport widths the desktop navigation is hidden and a trigger opens `Drawer`.
 Pass `mobileNavigation(close)` and call `close` when a destination is selected.
+Use `height="viewport"` to fill the dynamic viewport, or `height="parent"` to
+fill a container with a defined height. The default `height="content"` keeps
+embedded shells sized to their content. Viewport height with document scrolling
+grows for long pages; with pane scrolling it bounds the shell to the viewport.
+The header keeps its height while the body fills the remaining space.
 
 `Navigation` has `sidebar` and `rail` variants. `NavigationLink` keeps native anchor
 behavior, `NavigationAction` is a native button, and `NavigationGroup` provides a
 sidebar disclosure or a rail flyout. Rail links/actions have tooltips; group
 flyouts open on click or keyboard activation. Pass `current` from your router or
 view state. Groups expose controlled open state and optional collision boundaries.
+`Navigation width="full"` fills its container. AppShell's mobile drawer applies
+this width automatically; an explicit `width="fixed"` retains compact navigation.
+Tooltips open on mouse hover and keyboard focus, ignoring touch and pen hover so
+the first tap remains available to the action.
 
 Use `renderLink` to integrate a router without replacing link semantics:
 
@@ -58,6 +67,14 @@ both desktop and mobile presentations. Keep account actions in `Menu`.
 `LinkCard` is an anchor with a title and description, suitable for category indexes;
 it supports the same router adapter. Use `Card`, `FormRow`, `Stack`, and `Inline`
 inside those layouts rather than assigning margins to every control.
+`LinkCard media={...}` adds non-interactive media above the content. Set
+`orientation="horizontal"` for a thumbnail beside the content; the layout wraps
+in narrow containers. Keep buttons and other interactive controls outside the card.
+
+`Progress` is a styled native task-progress bar with an accessible `label` and no
+extra visible copy. Pass `value` and a positive `max` (default 1); omit `value` for
+indeterminate work. A value of zero remains determinate. Use `UsageMeter` for
+capacity rather than task progress.
 
 ## Multilingual editing
 
@@ -130,7 +147,10 @@ precision, currency formatting and conversion to integer minor units remain
 application responsibilities. This avoids turning an empty field into zero.
 
 `Stat` accepts an already formatted value, supporting detail, and explicit tone.
-A positive change is not automatically considered good. `ChartFrame` accepts any
+It reserves one line for optional detail, keeping cards the same height with or
+without it. Stats stretch to the tallest card in each `Grid` row, including when
+labels or details wrap. Content can grow without a fixed height. A positive
+change is not automatically considered good. `ChartFrame` accepts any
 chart renderer plus a required accessible textual/tabular `summary`. Its CSS
 variables are `--mythril-chart-1`, `--mythril-chart-2`, `--mythril-chart-3`,
 `--mythril-chart-grid`, and `--mythril-chart-text`. Set them on the frame through

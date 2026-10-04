@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Combobox } from "./combobox.js";
+import { Button } from "../button/button.js";
 
 const meta = {
   title: "Components/Combobox",
@@ -28,8 +29,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export const Overview: Story = {
   render: (args) => (
-    <div style={{ width: "18rem" }}>
-      <Combobox {...args} />
-    </div>
+    <form
+      style={{
+        width: "18rem",
+        maxWidth: "100%",
+        display: "grid",
+        gap: "0.75rem",
+      }}
+    >
+      <Combobox {...args} name="task" defaultValue="history" />
+      <Button type="reset">Reset</Button>
+    </form>
   ),
 };

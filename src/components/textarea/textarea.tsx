@@ -38,20 +38,24 @@ export const Textarea = ({
   const resize = useCallback((): void => {
     if (!autoResize || !internalRef.current) return;
     const element = internalRef.current;
+    if (element.closest("[hidden]")) return;
     element.style.height = "auto";
     const computed = getComputedStyle(element);
     const lineHeight = Number.parseFloat(computed.lineHeight) || 20;
+    const borders =
+      (Number.parseFloat(computed.borderTopWidth) || 0) +
+      (Number.parseFloat(computed.borderBottomWidth) || 0);
     const vertical =
       (Number.parseFloat(computed.paddingTop) || 0) +
       (Number.parseFloat(computed.paddingBottom) || 0) +
-      (Number.parseFloat(computed.borderTopWidth) || 0) +
-      (Number.parseFloat(computed.borderBottomWidth) || 0);
+      borders;
     const limit = maxRows
       ? lineHeight * maxRows + vertical
       : Number.POSITIVE_INFINITY;
-    const height = Math.min(element.scrollHeight, limit);
+    const contentHeight = element.scrollHeight + borders;
+    const height = Math.min(contentHeight, limit);
     if (height > 0) element.style.height = `${String(height)}px`;
-    element.style.overflowY = element.scrollHeight > limit ? "auto" : "hidden";
+    element.style.overflowY = contentHeight > limit ? "auto" : "hidden";
   }, [autoResize, maxRows]);
   useLayoutEffect(() => {
     if (autoResize) {
@@ -64,8 +68,28 @@ export const Textarea = ({
   useLayoutEffect(() => {
     if (!autoResize) return;
     window.addEventListener("resize", resize);
+    const element = internalRef.current;
+    let width = element?.getBoundingClientRect().width;
+    let frame: number | undefined;
+    const observer =
+      element && typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => {
+            const nextWidth = element.getBoundingClientRect().width;
+            if (nextWidth === width) return;
+            width = nextWidth;
+            // Resize outside the observer's delivery cycle to avoid layout loops.
+            if (frame !== undefined) cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => {
+              frame = undefined;
+              resize();
+            });
+          })
+        : undefined;
+    if (element) observer?.observe(element);
     return () => {
       window.removeEventListener("resize", resize);
+      observer?.disconnect();
+      if (frame !== undefined) cancelAnimationFrame(frame);
     };
   }, [autoResize, resize]);
   return (

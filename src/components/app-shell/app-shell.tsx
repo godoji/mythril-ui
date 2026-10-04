@@ -1,8 +1,9 @@
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import type { ComponentPropsWithRef, ReactElement, ReactNode } from "react";
 import { Menu } from "lucide-react";
 import { Drawer } from "../drawer/drawer.js";
 import { IconButton } from "../icon-button/icon-button.js";
+import { NavigationWidthProvider } from "../navigation/navigation.js";
 import { cx } from "../../lib/classes.js";
 import styles from "./app-shell.module.css";
 
@@ -21,6 +22,8 @@ export interface AppShellProps extends Omit<
   mainLabel?: string;
   /** Fill a bounded workspace and scroll panes independently, or scroll with the document. */
   scroll?: "document" | "panes";
+  /** Fill the viewport, a parent with a defined height, or only the content. */
+  height?: "content" | "parent" | "viewport";
 }
 /** Responsive application frame; routing and navigation state belong to the consumer. */
 export const AppShell = ({
@@ -33,16 +36,19 @@ export const AppShell = ({
   skipLabel = "Skip to content",
   mainLabel,
   scroll = "document",
+  height = "content",
   className,
   ...props
 }: AppShellProps): ReactElement => {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const mainId = useId();
   return (
     <div
       {...props}
       className={cx(styles.shell, className)}
       data-scroll={scroll}
+      data-height={height}
     >
       <a className={styles.skip} href={`#${mainId}`}>
         {skipLabel}
@@ -50,6 +56,7 @@ export const AppShell = ({
       <header className={styles.header}>
         <div className={styles.mobileTrigger}>
           <IconButton
+            ref={triggerRef}
             icon={Menu}
             label={navigationLabel}
             aria-expanded={open}
@@ -72,10 +79,17 @@ export const AppShell = ({
         </main>
         {aside && <aside className={styles.aside}>{aside}</aside>}
       </div>
-      <Drawer open={open} onOpenChange={setOpen} title={navigationLabel}>
-        {mobileNavigation(() => {
-          setOpen(false);
-        })}
+      <Drawer
+        open={open}
+        onOpenChange={setOpen}
+        title={navigationLabel}
+        returnFocus={triggerRef}
+      >
+        <NavigationWidthProvider width="full">
+          {mobileNavigation(() => {
+            setOpen(false);
+          })}
+        </NavigationWidthProvider>
       </Drawer>
     </div>
   );

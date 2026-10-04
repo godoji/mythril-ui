@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PageContainer, Grid, LinkCard } from "./page-layout.js";
+import samplePreview from "../image-preview/sample-preview.png";
 const meta = {
   title: "Components/Page layout",
   component: PageContainer,
@@ -11,7 +12,19 @@ export const Overview: Story = {
   render: () => (
     <PageContainer>
       <h1>Workspace</h1>
-      <Grid minColumnWidth="15rem">
+      <Grid minColumnWidth="22rem">
+        <LinkCard
+          title="Media above content"
+          href="#vertical-media"
+          media={<img src={samplePreview} alt="Abstract landscape" />}
+        />
+        <LinkCard
+          title="Media beside content"
+          description="Wraps when the container is narrow"
+          href="#horizontal-media"
+          orientation="horizontal"
+          media={<img src={samplePreview} alt="Abstract landscape" />}
+        />
         <LinkCard
           title="Catalog"
           description="Products, categories and availability"

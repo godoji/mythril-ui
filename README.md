@@ -83,7 +83,7 @@ Consumers can install the published package or validate a local tarball before u
 | Forms      | TextInput, Textarea, TextareaComposer, Select, Checkbox, Combobox, Listbox, EntityPicker, FileDropzone    |
 | Structure  | Disclosure, Accordion, Tabs, ResizablePanels, TreeView, PageHeader, Card, FormRow, FormActions, FilterBar |
 | Data       | DataTable, Pagination, DescriptionList, ImagePreview                                                      |
-| Feedback   | StatusBadge, Chip, Notice, Alert, UsageMeter, ToastProvider, LoadingState, EmptyState                     |
+| Feedback   | StatusBadge, Chip, Notice, Alert, UsageMeter, Progress, ToastProvider, LoadingState, EmptyState           |
 | Overlays   | Dialog, Drawer, Popover, Menu, ContextMenu                                                                |
 | History    | ScrollArea with follow-latest, CodeBlock with copy and bounded preview, CodeText, MarkdownContent         |
 | Appearance | Theme with light/dark palettes and CSS token overrides                                                    |

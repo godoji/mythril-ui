@@ -11,8 +11,8 @@
 }
 .item {
   padding: var(--mythril-space-3, 0.75rem);
-  border: 1px solid var(--mythril-border, #ccc);
-  border-radius: var(--mythril-radius, 0.625rem);
+  border: 1px solid var(--mythril-divider, #d9d9d9);
+  border-radius: var(--mythril-radius-panel, 0.75rem);
   background: var(--mythril-surface, #fff);
 }
 .header {
@@ -23,11 +23,13 @@
   margin-bottom: var(--mythril-space-2, 0.5rem);
 }
 .header h3 {
+  min-width: 0;
   margin: 0;
   font-size: 0.875rem;
+  overflow-wrap: anywhere;
 }
 .header h3:focus-visible {
-  outline: 2px solid var(--mythril-focus, #596ca0);
+  outline: 2px solid var(--mythril-focus, #2563eb);
 }
 .actions {
   display: flex;

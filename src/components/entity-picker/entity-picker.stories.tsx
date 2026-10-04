@@ -13,7 +13,7 @@ const Example = (): ReactElement => {
   const [selected, setSelected] = useState<EntityPickerOption[]>([]);
   const [query, setQuery] = useState("");
   return (
-    <div style={{ width: "20rem" }}>
+    <div style={{ width: "20rem", maxWidth: "100%" }}>
       <EntityPicker
         label="Related items"
         selected={selected}
@@ -29,9 +29,11 @@ const Example = (): ReactElement => {
   );
 };
 const InlineExample = (): ReactElement => {
-  const [selected, setSelected] = useState<EntityPickerOption[]>([]);
+  const [selected, setSelected] = useState<EntityPickerOption[]>([
+    { value: "read", label: "read" },
+  ]);
   return (
-    <div style={{ width: "20rem" }}>
+    <div style={{ width: "20rem", maxWidth: "100%" }}>
       <EntityPicker
         label="Allowed tools"
         selected={selected}

@@ -18,7 +18,7 @@ const preview: Preview = {
       <Theme
         mode={context.globals.theme === "light" ? "light" : "dark"}
         style={{
-          padding: "1.25rem",
+          padding: context.parameters.themePadding === 0 ? 0 : "1.25rem",
           minHeight: "100vh",
           boxSizing: "border-box",
         }}

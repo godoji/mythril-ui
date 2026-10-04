@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Play } from "lucide-react";
 import { describe, expect, it, vi } from "vitest";
@@ -7,6 +7,23 @@ import { IconButton } from "../icon-button/icon-button.js";
 import { Theme } from "../theme/theme.js";
 
 describe("IconButton and Tooltip", () => {
+  it.each(["touch", "pen"])(
+    "ignores %s hover and preserves the first click",
+    (pointerType) => {
+      const onClick = vi.fn();
+      render(<IconButton icon={Play} label="Next" onClick={onClick} />);
+      const button = screen.getByRole("button", { name: "Next" });
+      // jsdom lacks PointerEvent; retain pointerType on the delegated event.
+      const enter = new MouseEvent("pointerover", { bubbles: true });
+      Object.defineProperty(enter, "pointerType", { value: pointerType });
+      fireEvent(button, enter);
+      fireEvent.mouseEnter(button);
+      expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
+      fireEvent.click(button);
+      expect(onClick).toHaveBeenCalledOnce();
+    },
+  );
+
   it("shows the accessible action label on hover for an icon-only button", async () => {
     const user = userEvent.setup();
     render(<IconButton icon={Play} label="Run action" />);

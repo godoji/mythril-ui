@@ -24,6 +24,8 @@ export interface DrawerProps {
   side?: "start" | "end";
   size?: "small" | "medium";
   initialFocus?: RefObject<HTMLElement | null>;
+  /** Explicit focus destination after dismissal, including triggers that touch input does not focus. */
+  returnFocus?: RefObject<HTMLElement | null>;
   closeLabel?: string;
 }
 
@@ -38,6 +40,7 @@ export const Drawer = ({
   side = "start",
   size = "small",
   initialFocus,
+  returnFocus,
   closeLabel = "Close panel",
 }: DrawerProps): ReactElement | null => {
   const titleId = useId();
@@ -60,7 +63,7 @@ export const Drawer = ({
           <FloatingFocusManager
             context={context}
             initialFocus={initialFocus ?? 0}
-            returnFocus
+            returnFocus={returnFocus ?? true}
           >
             <div
               {...getFloatingProps()}

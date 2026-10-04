@@ -43,7 +43,7 @@
 
 .content blockquote {
   padding-left: 0.625rem;
-  border-left: 2px solid var(--mythril-border, #737373);
+  border-left: 2px solid var(--mythril-border, #767676);
   color: var(--mythril-muted, #606060);
 }
 

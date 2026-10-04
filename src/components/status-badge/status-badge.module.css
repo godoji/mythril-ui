@@ -10,7 +10,7 @@
       var(--badge-color) var(--mythril-badge-border-tint, 25%),
       transparent
     );
-  border-radius: 0.375rem;
+  border-radius: var(--mythril-radius-sm, 0.375rem);
   background: color-mix(
     in srgb,
     var(--badge-color) var(--mythril-badge-tint, 10%),

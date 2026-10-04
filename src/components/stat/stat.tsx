@@ -11,7 +11,7 @@ export interface StatProps extends Omit<
   detail?: ReactNode;
   tone?: "neutral" | "success" | "warning" | "danger";
 }
-/** Metric presentation; the caller formats values and determines what a change means. */
+/** Metric presentation with a reserved detail line and equal heights within a grid row. */
 export const Stat = ({
   label,
   value,
@@ -25,11 +25,9 @@ export const Stat = ({
       <dt>{label}</dt>
       <dd>{value}</dd>
     </dl>
-    {detail && (
-      <div data-tone={tone} className={styles.detail}>
-        {detail}
-      </div>
-    )}
+    <div data-tone={tone} className={styles.detail}>
+      {detail}
+    </div>
   </div>
 );
 
